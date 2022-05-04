@@ -82,7 +82,7 @@ router.get("/:idFornecedor", (req, res, next) => {
         if (error) {
           return res.status(500).send({ error: error });
         }
-        if (result.length == 0) {
+        if (result.length === 0) {
           return res.status(404).send({
             massage: "Fornecedor não encontrado!",
           });
@@ -117,7 +117,7 @@ router.patch("/", (req, res, next) => {
             SET  nomeFornecedor = ?, 
                 CNPJ_Fornecedor = ?, 
                 telFornecedor = ?
-            WHERE idFornecedor = ?`,
+            WHERE idFornecedor = ?;`,
       [req.body.nome, req.body.cnpj, req.body.telefone, req.body.idFornecedor],
       (error, result, field) => {
         conn.release();
@@ -133,7 +133,7 @@ router.patch("/", (req, res, next) => {
             telefone: req.body.telefone,
             request: {
               tipo: "PATCH",
-              descricao: "Altera daods um Fornecedor",
+              descricao: "Altera dados de um Fornecedor",
               url:
                 "http://localhost:3000/fornecedores/" + req.body.idFornecedor,
             },
