@@ -34,10 +34,11 @@ app.use((req, res, next) => {
 });
 
 const rotaFornecedores = require("./routes/fornecedores");
+const rotaCLientes = require("./routes/clientes");
+const rotaFuncionarios = require("./routes/funcionarios");
 app.use("/fornecedores", rotaFornecedores);
-const rotaCLientes = require("./routes/clientes")
-app.use("/clientes", rotaCLientes)
-
+app.use("/clientes", rotaCLientes);
+app.use("/funcionarios", rotaFuncionarios);
 
 //Quando não encotra a rota
 app.use((req, res, next) => {
