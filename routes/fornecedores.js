@@ -19,8 +19,10 @@ router.get("/", (req, res, next) => {
           return {
             idFornecedor: forn.idFornecedor,
             nome: forn.nomeFornecedor,
+            razaoSocial: forn.razaoSocial,
             cnpj: forn.CNPJ_Fornecedor,
             telefone: forn.telFornecedor,
+            descricao: forn.descricao,
             request: {
               tipo: "GET",
               descricao: "Retorna todos os fornecedores",
@@ -41,8 +43,14 @@ router.post("/", (req, res, next) => {
       return res.status(500).send({ error: error });
     }
     conn.query(
-      "INSERT INTO fornecedores (nomeFornecedor, CNPJ_Fornecedor, telFornecedor) VALUES(?,?,?);",
-      [req.body.nome, req.body.cnpj, req.body.telefone],
+      "INSERT INTO fornecedores (nomeFornecedor, razaoSocial, CNPJ_Fornecedor, telFornecedor, descricao) VALUES(?,?,?,?,?);",
+      [
+        req.body.nome,
+        req.body.razaoSocial,
+        req.body.cnpj,
+        req.body.telefone,
+        req.body.descricao,
+      ],
       (error, result, field) => {
         conn.release();
         if (error) {
@@ -53,8 +61,10 @@ router.post("/", (req, res, next) => {
           fornecedorCriado: {
             idFornecedor: result.idFornecedor,
             nome: req.body.nome,
+            razaoSocial: req.body.razaoSocial,
             cnpj: req.body.cnpj,
             telefone: req.body.telefone,
+            descricao: req.body.descricao,
             request: {
               tipo: "POST",
               descricao: "Adiciona um novo Fornecedor",
@@ -91,8 +101,10 @@ router.get("/:idFornecedor", (req, res, next) => {
           fornecedor: {
             idFornecedor: result[0].idFornecedor,
             nome: result[0].nomeFornecedor,
+            razaoSocial: result[0].razaoSocial,
             cnpj: result[0].CNPJ_Fornecedor,
             telefone: result[0].telFornecedor,
+            descricao: result[0].descricao,
             request: {
               tipo: "GET",
               descricao: "Retorna um Fornecedor",
@@ -114,11 +126,20 @@ router.patch("/", (req, res, next) => {
     }
     conn.query(
       `UPDATE fornecedores 
-            SET  nomeFornecedor = ?, 
+            SET  nomeFornecedor = ?,
+                razaoSocial = ?, 
                 CNPJ_Fornecedor = ?, 
-                telFornecedor = ?
+                telFornecedor = ?,
+                descricao = ?
             WHERE idFornecedor = ?;`,
-      [req.body.nome, req.body.cnpj, req.body.telefone, req.body.idFornecedor],
+      [
+        req.body.nome,
+        req.body.razaoSocial,
+        req.body.cnpj,
+        req.body.telefone,
+        req.body.descricao,
+        req.body.idFornecedor,
+      ],
       (error, result, field) => {
         conn.release();
         if (error) {
@@ -129,8 +150,10 @@ router.patch("/", (req, res, next) => {
           fornecedorAtualizado: {
             idFornecedor: req.body.idFornecedor,
             nome: req.body.nome,
+            razaoSocial: req.body.razaoSocial,
             cnpj: req.body.cnpj,
             telefone: req.body.telefone,
+            descricao: req.body.descricao,
             request: {
               tipo: "PATCH",
               descricao: "Altera dados de um Fornecedor",
