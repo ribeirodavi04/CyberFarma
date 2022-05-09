@@ -46,9 +46,8 @@ app.use("/clientes", rotaCLientes);
 app.use("/funcionarios", rotaFuncionarios);
 app.use("/Produtos", rotaProdutos);
 app.use("/vendas", rotaVendas);
-app.use("/venda_itens", rotaVenda_itens)
+app.use("/venda_itens", rotaVenda_itens);
 app.use("/login", rotaLogin);
-
 
 //Quando não encotra a rota
 app.use((req, res, next) => {
