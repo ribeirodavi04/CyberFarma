@@ -46,8 +46,13 @@ router.post("/", (req, res, next) =>{
             return res.status(500).send({error:error})
         }
         conn.query(
-            "INSERT INTO vendas (dataVenda, valorTotalVenda, formaPagamentoVenda) VALUES (?, ?, ?);",
-            [req.body.data, req.body.valorVenda, req.body.formaPagamento],
+            "INSERT INTO vendas (idCliente, idFuncionario, dataVenda, valorTotalVenda, formaPagamentoVenda) VALUES (?, ?, ?, ?, ?);",
+            [
+                req.body.idCliente,
+                req.body.idFuncionario,
+                req.body.data, 
+                req.body.valorVenda, 
+                req.body.formaPagamento],
             (error, result, field) =>{
                 conn.release()
                 if (error) {
@@ -57,8 +62,8 @@ router.post("/", (req, res, next) =>{
                     message: "Venda inserida com sucesso! :)",
                     vendaCriada: {
                         idVenda: result.idVenda,
-                        idCliente: result.idCliente,
-                        idFuncionario: result.idFuncionario,
+                        idCliente: req.body.idCliente,
+                        idFuncionario: req.body.idFuncionario,
                         data: req.body.data,
                         valorVenda: req.body.valorVenda,
                         formaPagamento: req.body.formaPagamento,
@@ -112,87 +117,7 @@ router.get("/:idVenda", (req, res, next) =>{
                 return res.status(200).send(response);
             }
         )
-    })
+    })//s
 })
-
-//Altera uma Venda
-router.patch("/", (req, res, next) => {
-    mysql.getConnection((error, conn) =>{
-        if (error) {
-            return res.status(500).send ({error:error})
-        }
-        conn.query(
-            `UPDATE vendas
-                SET dataVenda = ?,
-                valorTotalVenda = ?,
-                formaPagamentoVenda = ?
-            WHERE idVenda = ?;`,
-            
-        [
-            req.body.data,
-            req.body.valor,
-            req.body.formaPagamento,
-            req.body.idVenda,
-        ],
-        (error, result, field) => {
-            conn.release()
-            if(error) {
-                return res.status(500).send({error:error})
-            }
-            const response = {
-                message: "Venda Atualizada com sucesso! :)",
-                vendaAtualizada: {
-                    idVenda: req.body.idCliente,
-                    idCliente: req.body.idCliente,
-                    idFuncionario: req.body.idFuncionario,
-                    data: req.body.data,
-                    valor: req.body.valor,
-                    formaPagamento: req.body.formaPagamento,
-                    request: {
-                        tipo: "PATCH",
-                        descricao: "Venda atualizada com sucesso",
-                        url: "http://localhost:3000/vendas/"
-                    }
-                }
-            }
-            return res.status(202).send(response);
-        }
-        )
-    })
-})
-
-//Deleta uma Venda
-router.delete("/", (req, res, next) => {
-    mysql.getConnection((error, conn) =>{
-        if (error) {
-            return res.status(500).send ({error:error})
-        }
-        conn.query(
-            "DELETE FROM vendas WHERE vendas.idVenda = ?;",
-            [req.body.idVenda],
-            (error, result, field) => {
-                conn.release()
-                if (error) {
-                    return res.status(500).send({error:error})
-                }
-                const response = {
-                    message: "Cliente Deletado com sucesso :/",
-                    request: {
-                        tipo: "POST",
-                        descricao: "Deleta um Fornecedor",
-                        url: "http://localhost:300/clientes ",
-                        body: {
-                            dataVenda: "date",
-                            valorVenda: "String",
-                            formaPagamento: "String",
-                        }
-                    }
-                }
-                return res.status(202).send(response);
-            }
-        )
-    })
-})
-
 
 module.exports = router;

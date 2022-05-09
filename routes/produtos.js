@@ -220,7 +220,7 @@ router.delete("/", (req, res, next) =>{
                             marca: "String",
                             lote: "String",
                             preco: "String",
-                            dataValidade: "String",
+                            dataValidade: "date",
                             descricao: "String"
                         }
                     }
