@@ -26,8 +26,8 @@ router.get("/", (req, res, next) => {
                         quantidade: forn.quantidadeProd,
                         lote: forn.loteProd,
                         preco: forn.precoProd,
-                        // categoria: forn.categoriaProd,
-                        // descricao: forn.descricaoProd
+                        dataValidade: forn.dataValidade,
+                        descricao: forn.descricao,
                         request: {
                             tipo: "GET",
                             descricao: "Retorna todos os produtos",
@@ -47,11 +47,11 @@ router.get("/", (req, res, next) => {
 router.post("/", (req, res, next) =>{
     mysql.getConnection((error, conn) => {
         if (error){
-            return res.status(500)._construct({error:error})
+            return res.status(500).send({error:error})
         }
         conn.query(
-            "INSERT INTO produtos (codBarraProd, nomeProd, tipoProd, marcaProd, quantidadeProd, loteProd, precoProd) VALUES (?, ?, ?, ?, ?, ?, ?) ",
-            [req.body.codBarra, req.body.nome, req.body.tipo, req.body.marca, req.body.quantidade, req.body.lote, req.body.preco],
+            "INSERT INTO produtos (codBarraProd, nomeProd, tipoProd, marcaProd, quantidadeProd, loteProd, precoProd, dataValidade, descricao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ",
+            [req.body.codBarra, req.body.nome, req.body.tipo, req.body.marca, req.body.quantidade, req.body.lote, req.body.preco, req.body.dataValidade, req.body.descricao],
             (error, result, field) =>{
                 conn.release()
                 if (error){
@@ -68,8 +68,8 @@ router.post("/", (req, res, next) =>{
                         quantidade: req.body.quantidade,
                         lote: req.body.lote,
                         preco: req.body.preco,
-                        // categoria: req.body.categoriaProd,
-                        // descricao: req.body.descricaoProd,
+                        dataValidade: req.body.dataValidade,
+                        descricao: req.body.descricao,
                         request: {
                             tipo: "POST",
                             descricao: "Adiciona um novo Produto",
@@ -114,8 +114,8 @@ router.get("/:idProduto", (req, res, next) => {
                         quantidade: result[0].quantidadeProd,
                         lote: result[0].loteProd,
                         preco: result[0].precoProd,
-                        // categoria: result[0].categoriaProd,
-                        // descricao: result[0].descricaoProd,
+                        dataValidade: result[0].dataValidade,
+                        descricao: result[0].descricao,
                         request: {
                             tipo: "GET",
                             descricao: "Retorna um Produto",
@@ -144,11 +144,24 @@ router.patch("/", (req, res, next) =>{
                     marcaProd = ?,
                     quantidadeProd =?,
                     loteProd = ?,
-                    precoProd = ?
-            WHERE idProduto = ?;`,
-            // categoria: categoriaProd,
-            // descricao: descricaoProd,
-        [req.body.codBarra, req.body.nome, req.body.tipo, req.body.marca, req.body.quantidade, req.body.lote, req.body.preco, req.body.idProduto],
+                    precoProd = ?,
+                    dataValidade = ?,
+                    descricao = ?      
+                WHERE idProduto = ?;`,
+            
+            
+        [
+            req.body.codBarra,
+            req.body.nome,
+            req.body.tipo, 
+            req.body.marca, 
+            req.body.quantidade, 
+            req.body.lote, 
+            req.body.preco, 
+            req.body.dataValidade, 
+            req.body.descricao, 
+            req.body.idProduto,
+        ],
         (error, result, field) =>{
             conn.release()
             if (error){
@@ -164,8 +177,8 @@ router.patch("/", (req, res, next) =>{
                     marcaProd: req.body.marca,
                     lote: req.body.lote,
                     preco: req.body.preco,
-                    // categoria: categoriaProd,
-                    // descricao: descricaoProd,
+                    dataValidade: req.body.dataValidade,
+                    descricao: req.body.descricao,
                     request: {
                         tipo: "PATCH",
                         descricao: "Atualiza os dados do produto",
@@ -207,6 +220,8 @@ router.delete("/", (req, res, next) =>{
                             marca: "String",
                             lote: "String",
                             preco: "String",
+                            dataValidade: "String",
+                            descricao: "String"
                         }
                     }
 
@@ -220,6 +235,3 @@ router.delete("/", (req, res, next) =>{
 
 
 module.exports = router;
-
-// A ordem das info " nome, preço, marca e etc" deveria ser a mesma q ta no front ou tanto faz?
-// alem de  das coluna 'categoria' e 'descrição', ta faltando adicionar a da data né?

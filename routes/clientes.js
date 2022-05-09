@@ -111,7 +111,7 @@ router.get("/:idCliente", (req, res, next) => {
             deficiencia: result[0].deficiencia,
             request: {
               tipo: "GET",
-              descricao: "Retorna um fornecedor",
+              descricao: "Retorna um Cliente",
               url: "http://localhost:3000/clientes/",
             },
           },
@@ -122,7 +122,7 @@ router.get("/:idCliente", (req, res, next) => {
   });
 });
 
-//Altera um Fornecedor
+//Altera um Cliente
 router.patch("/", (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
