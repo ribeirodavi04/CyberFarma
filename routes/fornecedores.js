@@ -51,7 +51,7 @@ router.post("/", (req, res, next) => {
         req.body.telefone,
         req.body.descricao,
       ],
-      (error, result, field) => {
+      (error, result, fields) => {
         conn.release();
         if (error) {
           return res.status(500).send({ error: error });
