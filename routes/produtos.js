@@ -1,0 +1,225 @@
+const express = require("express")
+const router = express.Router()
+const mysql = require("../mysql").pool
+
+//Retorna todos os Produtos
+router.get("/", (req, res, next) => {
+    mysql.getConnection((error, conn) =>{
+        if (error) {
+            return res.status(500).send({error:error})
+        }
+        conn.query("SELECT * FROM produtos", (error, result, fields ) => {
+            conn.release()
+            if (error) {
+                return res.status(500).send({error:error})
+            }
+            const response = {
+                quantidade: result.length,
+                produtos: result.map((forn) => {
+                    return {
+                        idProduto: forn.idProduto,
+                        idFornecedor: forn.idFornecedorProd,
+                        codBarra: forn.codBarraProd,
+                        nome: forn.nomeProd,
+                        tipo: forn.tipoProd,
+                        marca: forn.marcaProd,
+                        quantidade: forn.quantidadeProd,
+                        lote: forn.loteProd,
+                        preco: forn.precoProd,
+                        // categoria: forn.categoriaProd,
+                        // descricao: forn.descricaoProd
+                        request: {
+                            tipo: "GET",
+                            descricao: "Retorna todos os produtos",
+                            url: "http://localhost:3000/produtos/" + forn.idProduto,
+                            
+                        }
+                    }
+                })
+            }
+            return res.status(200).send(response);
+        })
+    })
+
+})
+
+//Insere um Produto
+router.post("/", (req, res, next) =>{
+    mysql.getConnection((error, conn) => {
+        if (error){
+            return res.status(500)._construct({error:error})
+        }
+        conn.query(
+            "INSERT INTO produtos (codBarraProd, nomeProd, tipoProd, marcaProd, quantidadeProd, loteProd, precoProd) VALUES (?, ?, ?, ?, ?, ?, ?) ",
+            [req.body.codBarra, req.body.nome, req.body.tipo, req.body.marca, req.body.quantidade, req.body.lote, req.body.preco],
+            (error, result, field) =>{
+                conn.release()
+                if (error){
+                    return res.status(500).send({error:error})
+                }
+                const response = {
+                    message: "Produto inserido com Sucesso! :)",
+                    ProdutoCriado: {
+                        idProduto: result.idProduto,
+                        idFornecedor: result.idFornecedor,
+                        nome: req.body.nome,
+                        tipo: req.body.tipo,
+                        marca: req.body.marca,
+                        quantidade: req.body.quantidade,
+                        lote: req.body.lote,
+                        preco: req.body.preco,
+                        // categoria: req.body.categoriaProd,
+                        // descricao: req.body.descricaoProd,
+                        request: {
+                            tipo: "POST",
+                            descricao: "Adiciona um novo Produto",
+                            url: "http://localhost:3000/produtos/"
+
+                        }
+                    }
+                }
+                return res.status(201).send(response)
+            }
+        )
+    })
+})
+
+//Retorna os dados de um produto em especifico
+router.get("/:idProduto", (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if (error) {
+            return res.status(500).send({error:error})
+        }
+        conn.query(
+            "SELECT * FROM produtos WHERE idProduto =?;",
+            [req.params.idProduto],
+            (error, result, fields) =>{
+                conn.release()
+                if (error) {
+                    return res.status(500).send ({error:error})
+                }
+                if (result.length === 0) {
+                    return res.status(404).send({
+                        message: "Produto não encontrado",
+                    })
+                }
+                const response = {
+                    produtos: {
+                        idProduto: result[0].idProduto,
+                        idFornecedor: result[0].idFornecedorProd,
+                        codBarra: result[0].codBarraProd,
+                        nome: result[0].nomeProd,
+                        tipo: result[0].tipoProd,
+                        marca: result[0].marcaProd,
+                        quantidade: result[0].quantidadeProd,
+                        lote: result[0].loteProd,
+                        preco: result[0].precoProd,
+                        // categoria: result[0].categoriaProd,
+                        // descricao: result[0].descricaoProd,
+                        request: {
+                            tipo: "GET",
+                            descricao: "Retorna um Produto",
+                            url: "http://localhost:3000/produtos",
+
+                        }
+                    }
+                }
+                return res.status(200).send(response);
+            }
+        )
+    })
+})
+
+// Altera um Produto
+router.patch("/", (req, res, next) =>{
+    mysql.getConnection ((error, conn) => {
+        if (error) {
+            return res.status(500).send({error:error})
+        }
+        conn.query(
+            `UPDATE produtos
+                SET codBarraProd = ?,
+                    nomeProd = ?,
+                    tipoProd = ?,
+                    marcaProd = ?,
+                    quantidadeProd =?,
+                    loteProd = ?,
+                    precoProd = ?
+            WHERE idProduto = ?;`,
+            // categoria: categoriaProd,
+            // descricao: descricaoProd,
+        [req.body.codBarra, req.body.nome, req.body.tipo, req.body.marca, req.body.quantidade, req.body.lote, req.body.preco, req.body.idProduto],
+        (error, result, field) =>{
+            conn.release()
+            if (error){
+                return res.status(500).send({error:error})
+            }
+            const response = {
+                message: "Produto Atualizado com sucesso! ;)",
+                ProdutoAtualizado: {
+                    idProduto: req.body.idProduto,
+                    idFornecedor: req.body.idFornecedor,
+                    nome: req.body.nome,
+                    tipo: req.body.tipo,
+                    marcaProd: req.body.marca,
+                    lote: req.body.lote,
+                    preco: req.body.preco,
+                    // categoria: categoriaProd,
+                    // descricao: descricaoProd,
+                    request: {
+                        tipo: "PATCH",
+                        descricao: "Atualiza os dados do produto",
+                        url: "http://localhost:3000/clientes/" + req.body.idProduto,
+                    }
+                }
+            }
+            return res.status(202).send(response)
+        }
+
+        )
+    })
+})
+
+// Deleta um produto
+router.delete("/", (req, res, next) =>{
+    mysql.getConnection((error, conn) =>{
+        if (error) {
+            return res.status(500).send ({error:error})
+        }
+        conn.query(
+            "DELETE FROM produtos WHERE produtos.idProduto =?;",
+            [req.body.idProduto],
+            (error, result, field) =>{
+                conn.release()
+                if (error) {
+                    return res.status(500).send({error:error})
+                }
+                const response = {
+                    message: "Produto deletado com sucesso /:",
+                    request: {
+                        tipo: "POST",
+                        descricao: "Deleta um Produto",
+                        url: "http://localhost:300/cliente ",
+                        body: {
+                            codBarra: "String",
+                            nome: "String",
+                            tipo: "String",
+                            marca: "String",
+                            lote: "String",
+                            preco: "String",
+                        }
+                    }
+
+                }
+                return res.status(202).send(response)
+            }
+        )
+    })
+})
+
+
+
+module.exports = router;
+
+// A ordem das info " nome, preço, marca e etc" deveria ser a mesma q ta no front ou tanto faz?
+// alem de  das coluna 'categoria' e 'descrição', ta faltando adicionar a da data né?
