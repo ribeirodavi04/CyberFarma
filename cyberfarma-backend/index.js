@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
 const app = express();
-
+//teste
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false })); //apenas dados simples

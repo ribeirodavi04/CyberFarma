@@ -1,0 +1,51 @@
+body{
+    margin: 0px;
+    font-family: Helvetica;
+}
+
+.fundo{
+    width: 100%;
+    height: 190vmin;
+    background-color: #e0e0e0;
+
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+
+}
+
+.barraDeNavegacao{
+    border-radius: 50px;
+    box-shadow:  20px 20px 60px #bebebe,
+                -20px -20px 60px #ffffff;
+}
+
+.login{
+    width: 3in;
+    height: 3in;
+    border-radius: 50px;
+    background: #e0e0e0;
+    box-shadow:  20px 20px 60px #bebebe,
+                -20px -20px 60px #ffffff;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.telaformulario{
+    width: auto;
+    height: auto;
+    border-radius: 50px;
+    background: #e0e0e0;
+    box-shadow:  20px 20px 60px #bebebe,
+                -20px -20px 60px #ffffff;
+    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 5%;
+}
+

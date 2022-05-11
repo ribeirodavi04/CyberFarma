@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <title>Cadastrar Clientes</title>
+</head>
+
+<body>
+    <div class="fundo" style="justify-content: flex-start;">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light barraDeNavegacao" style="margin-block-end: 5%;">
+            <a class="navbar-brand" href="#">Cyber Farma</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Alterna navegação">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="TelaDeRelatorios.html">Consultas</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cadastro
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="CadastroDeClientes.html">Clientes</a>
+                            <a class="dropdown-item" href="CadastroDeFornecedores.html">Fornecedores</a>
+                            <a class="dropdown-item" href="CadastroDeFuncionarios.html">Funcionarios</a>
+                            <a class="dropdown-item" href="CadastroDeProdutos.html">Produtos</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="telaformulario">
+
+            <form action="http://localhost:3000/clientes" target="_self" style="flex-direction: column; align-items: center; display: flex;" method="post">
+
+                <h4>Informações do Cliente</h4>
+
+                <p></p>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="nomeFuncionario">Nome: </span>
+                    </div>
+                    <input type="text" name="nome" class="form-control" placeholder="Seu nome completo"
+                        aria-label="Seu nome completo" aria-describedby="basic-addon1" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="nomeFuncionario">CPF: </span>
+                    </div>
+                    <input type="text" name="cpf" class="form-control" placeholder="Digite seu CPF" aria-label="Digite seu CPF"
+                        aria-describedby="basic-addon1" maxlength="11"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        required>
+                </div>
+
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="nomeFuncionario">Data de nascimento:</span>
+                    </div>
+                    <input type="date" name="dataNasc" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1"
+                        required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="nomeFuncionario">Telefone: </span>
+                    </div>
+                    <input type="text" name="telefone" class="form-control" placeholder="Digite o numero de telefone"
+                        aria-label="Digite seu RG" aria-describedby="basic-addon1" maxlength="11"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="nomeFuncionario">Endereço: </span>
+                    </div>
+                    <input type="text" name="endereco" class="form-control" placeholder="Digite o endereço" aria-label="Digite o endereço"
+                      aria-describedby="basic-addon1" required>
+                </div>
+
+                <div class="input-group mb-3">
+
+                    <input type="text" name="deficiencia" class="form-control" placeholder="Possui Deficiencia? Defina" aria-label=""
+                        aria-label="Input text com checkbox" required>
+                </div>
+
+                <p></p>
+
+                <div>
+                    <input type="submit" class="btn btn-outline-success">
+                    <input type="reset" value="Limpar" class="btn btn-outline-danger">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        function oi(){
+            axios.get("http://localhost:3000/clientes")
+                .then(response => {
+                    const data = response.data
+                    console.log(data)
+                })
+                .catch( error => console.log(error))
+        }
+        function ui(){
+            axios.post("http://localhost:3000/clientes",{
+                nome:"loro",
+                cpf:"15454251",
+                telefone: "1545111",
+                endereco: "rua z",
+                dataNasc: "2022/05/05",
+                deficiencia:"gay"
+            }).then(response=>{
+                console.log(response.data)
+            }).catch(error=>{
+                console.log(error)
+            });
+        }
+        oi();
+        ui();
+    </script>
+</body>
+
+</html>
