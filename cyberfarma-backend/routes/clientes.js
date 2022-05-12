@@ -53,10 +53,10 @@ router.post("/", (req, res, next) => {
         req.body.dataNasc,
         req.body.deficiencia,
       ],
-      (error, result, field) => {
+      (err, result, field) => {
         conn.release();
-        if (error) {
-          return res.status(500).send({ error: error });
+        if (err) {
+          return res.status(500).send({ err: err });
         }
         const response = {
           message: "Cliente Inserido com Sucesso! :)",
