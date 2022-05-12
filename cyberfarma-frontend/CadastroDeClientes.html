@@ -52,7 +52,7 @@
 
         <div class="telaformulario">
 
-            <form action="http://localhost:3000/clientes" target="_self" style="flex-direction: column; align-items: center; display: flex;" method="post">
+            <form  style="flex-direction: column; align-items: center; display: flex;">
 
                 <h4>Informações do Cliente</h4>
 
@@ -62,7 +62,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="nomeFuncionario">Nome: </span>
                     </div>
-                    <input type="text" name="nome" class="form-control" placeholder="Seu nome completo"
+                    <input type="text" name="nomeCli" class="form-control" placeholder="Seu nome completo"
                         aria-label="Seu nome completo" aria-describedby="basic-addon1" required>
                 </div>
 
@@ -82,7 +82,7 @@
                         <span class="input-group-text" id="nomeFuncionario">Data de nascimento:</span>
                     </div>
                     <input type="date" name="dataNasc" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1"
-                        required>
+                    data-date-format="DD MMMM YYYY" >
                 </div>
 
                 <div class="input-group mb-3">
@@ -100,7 +100,7 @@
                       <span class="input-group-text" id="nomeFuncionario">Endereço: </span>
                     </div>
                     <input type="text" name="endereco" class="form-control" placeholder="Digite o endereço" aria-label="Digite o endereço"
-                      aria-describedby="basic-addon1" required>
+                      aria-describedby="basic-addon1" >
                 </div>
 
                 <div class="input-group mb-3">
@@ -112,7 +112,7 @@
                 <p></p>
 
                 <div>
-                    <input type="submit" class="btn btn-outline-success">
+                    <input type="submit" onclick="cadastrarCliente()" class="btn btn-outline-success" value="Cadastrar">
                     <input type="reset" value="Limpar" class="btn btn-outline-danger">
                 </div>
             </form>
@@ -121,29 +121,42 @@
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        function oi(){
-            axios.get("http://localhost:3000/clientes")
-                .then(response => {
-                    const data = response.data
-                    console.log(data)
-                })
-                .catch( error => console.log(error))
-        }
         function ui(){
+           
+        }
+         function cadastrarCliente(){
+            
+            console.log('foi')
+            const dadosCli ={
+                nomeCli: document.getElementsByName("nomeCli")[0].value,
+                cpf: document.getElementsByName("cpf")[0].value,
+                telefone: document.getElementsByName("telefone")[0].value,
+                endereco: document.getElementsByName("endereco")[0].value,
+                dataNasc: document.getElementsByName("dataNasc")[0].value,
+                deficiencia: document.getElementsByName("deficiencia")[0].value
+            }
+            
+            const ano = dadosCli.dataNasc.substring(0,4);
+            const mes = dadosCli.dataNasc.substring(5,7);
+            const dia = dadosCli.dataNasc.substring(8,10);
+            const datafull = ano + "/" + mes + "/" + dia; 
+            console.log(dadosCli);
+            
+            
             axios.post("http://localhost:3000/clientes",{
-                nome:"loro",
-                cpf:"15454251",
-                telefone: "1545111",
-                endereco: "rua z",
-                dataNasc: "2022/05/05",
-                deficiencia:"gay"
+                nome: dadosCli.nomeCli,
+                cpf: dadosCli.cpf,
+                telefone: dadosCli.telefone,
+                endereco: dadosCli.endereco,
+                dataNasc: datafull,
+                deficiencia: dadosCli.deficiencia
             }).then(response=>{
                 console.log(response.data)
             }).catch(error=>{
                 console.log(error)
             });
-        }
-        oi();
+
+}
         ui();
     </script>
 </body>
