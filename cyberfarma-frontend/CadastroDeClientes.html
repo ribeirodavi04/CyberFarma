@@ -68,10 +68,18 @@
                 class="dropdown-menu"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-                <a class="dropdown-item" href="CadastroDeClientes.html">Clientes</a>
-                <a class="dropdown-item" href="CadastroDeFornecedores.html">Fornecedores</a>
-                <a class="dropdown-item" href="CadastroDeFuncionarios.html">Funcionarios</a>
-                <a class="dropdown-item" href="CadastroDeProdutos.html">Produtos</a>
+                <a class="dropdown-item" href="CadastroDeClientes.html"
+                  >Clientes</a
+                >
+                <a class="dropdown-item" href="CadastroDeFornecedores.html"
+                  >Fornecedores</a
+                >
+                <a class="dropdown-item" href="CadastroDeFuncionarios.html"
+                  >Funcionarios</a
+                >
+                <a class="dropdown-item" href="CadastroDeProdutos.html"
+                  >Produtos</a
+                >
               </div>
             </li>
           </ul>
@@ -122,7 +130,9 @@
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="nomeFuncionario">Data de nascimento:</span>
+              <span class="input-group-text" id="nomeFuncionario"
+                >Data de nascimento:</span
+              >
             </div>
             <input
               type="date"
@@ -137,7 +147,9 @@
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="nomeFuncionario">Telefone:</span>
+              <span class="input-group-text" id="nomeFuncionario"
+                >Telefone:
+              </span>
             </div>
             <input
               type="text"
@@ -154,7 +166,9 @@
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="nomeFuncionario">Endereço:</span>
+              <span class="input-group-text" id="nomeFuncionario"
+                >Endereço:
+              </span>
             </div>
             <input
               type="text"
@@ -192,6 +206,42 @@
       </div>
     </div>
 
-    <script src="cadastros.js"></script>
+    <script>
+      function cadastrarCliente() {
+        event.preventDefault();
+        let url = "http://localhost:3000/clientes";
+
+        let nomeCli = document.getElementsByName("nomeCli")[0].value;
+        let cpf = document.getElementsByName("cpf")[0].value;
+        let telefone = document.getElementsByName("telefone")[0].value;
+        let endereco = document.getElementsByName("endereco")[0].value;
+        let dataNasc = document.getElementsByName("dataNasc")[0].value;
+        let deficiencia = document.getElementsByName("deficiencia")[0].value;
+
+        const ano = dataNasc.substring(0, 4);
+        const mes = dataNasc.substring(5, 7);
+        const dia = dataNasc.substring(8, 10);
+        const datafull = ano + "/" + mes + "/" + dia;
+
+        console.log(nomeCli, cpf, telefone, endereco, dataNasc, deficiencia);
+        body = {
+          nome: nomeCli,
+          cpf: cpf,
+          telefone: telefone,
+          endereco: endereco,
+          dataNasc: datafull,
+          deficiencia: deficiencia,
+        };
+
+        fetch("http://localhost:3000/clientes", {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+        })
+          .then((response) => response.json())
+          .then((json) => console.log(json))
+          .catch((err) => console.log(err));
+      }
+    </script>
   </body>
 </html>
