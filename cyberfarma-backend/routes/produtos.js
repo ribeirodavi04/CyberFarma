@@ -8,7 +8,7 @@ router.get("/", (req, res, next) => {
     if (error) {
       return res.status(500).send({ error: error });
     }
-    conn.query("SELECT * FROM produtos", (error, result, fields) => {
+    conn.query("SELECT produtos.idProduto, produtos.codBarraProd, produtos.nomeProd, produtos.tipoProd, produtos.marcaProd, produtos.quantidadeProd, produtos.loteProd, produtos.precoProd, produtos.dataValidade, produtos.descricao, fornecedores.nomeFornecedor FROM produtos LEFT JOIN fornecedores ON produtos.idFornecedorProd = fornecedores.idFornecedor;", (error, result, fields) => {
       conn.release();
       if (error) {
         return res.status(500).send({ error: error });
@@ -18,7 +18,7 @@ router.get("/", (req, res, next) => {
         produtos: result.map((forn) => {
           return {
             idProduto: forn.idProduto,
-            idFornecedor: forn.idFornecedorProd,
+            nomeFornecedor: forn.nomeFornecedor,
             codBarra: forn.codBarraProd,
             nome: forn.nomeProd,
             tipo: forn.tipoProd,

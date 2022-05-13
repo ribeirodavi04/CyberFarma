@@ -53,23 +53,18 @@
         <div class="telaformulario">
 
             <div class="btn-group btn-group-toggle" role="group" aria-label="Basic example">
-                <button type="button" id="clientes" class="btn btn-secondary">Clientes</button>
-                <button type="button" id="funcionarios" class="btn btn-secondary">Funcionarios</button>
-                <button type="button" id="fornecedores"  class="btn btn-secondary">Fornecedores</button>
-                <button type="button" id="produtos" class="btn btn-secondary">Produtos</button>
+                <button onclick="menuControl(1)" type="button" id="clientes" class="btn btn-secondary">Clientes</button>
+                <button onclick="menuControl(2) " type="button" id="funcionarios" class="btn btn-secondary">Funcionarios</button>
+                <button onclick="menuControl(3) " type="button" id="fornecedores"  class="btn btn-secondary">Fornecedores</button>
+                <button onclick="menuControl(4) " type="button" id="produtos" class="btn btn-secondary">Produtos</button>
             </div>
             <p></p>
 
             <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Razão Social</th>
-                        <th scope="col">CNPJ</th>
-                        <th scope="col">Descrição</th>
-                    </tr>
+                <thead id="headerId">
+                
                 </thead>
+
                 <tbody id="bodyinfos">
                     <tr>
                     </tr>
@@ -83,7 +78,10 @@
 
     <script src="buscas.js"></script>
     <script>
-        buscarFornecedoresTBL()
+       // buscarFornecedoresTBL()
+       // buscarClientesTBL()
+       // buscarFuncionarioTBL()
+  
     </script>
 
 </body>
