@@ -10,5 +10,21 @@ async function buscarFornecedores() {
   });
   document.getElementById("fornecedores").innerHTML = output;
 }
+async function buscarFornecedoresTBL() {
+  const url = "http://localhost:3000/fornecedores";
+  const fornecedores = await fetch(url).then((res) => res.json());
+  console.log(fornecedores);
 
-buscarFornecedores();
+  let output = "";
+
+  fornecedores.fornecedores.map((item) => {
+    output += `<tr>
+      <th>${item.idFornecedor}</th>
+      <td>${item.nome}</td>
+      <td>${item.razaoSocial}</td>
+      <td>${item.cnpj}</td>
+      <td>${item.descricao}</td>
+  </tr>`;
+  });
+  document.getElementById("bodyinfos").innerHTML = output;
+}
