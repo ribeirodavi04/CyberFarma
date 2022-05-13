@@ -34,6 +34,13 @@ function cadastrarCliente() {
     .then((response) => response.json())
     .then((json) => console.log(json))
     .catch((err) => console.log(err));
+
+  document.getElementsByName("nomeCli")[0].value = "";
+  document.getElementsByName("cpf")[0].value = "";
+  document.getElementsByName("telefone")[0].value = "";
+  document.getElementsByName("endereco")[0].value = "";
+  document.getElementsByName("dataNasc")[0].value = "";
+  document.getElementsByName("deficiencia")[0].value = "";
 }
 
 function cadastrarFuncionario() {
@@ -68,6 +75,15 @@ function cadastrarFuncionario() {
     .then((response) => response.json())
     .then((json) => console.log(json))
     .catch((err) => console.log(err));
+
+  document.getElementsByName("nome")[0].value = "";
+  document.getElementsByName("cpf")[0].value = "";
+  document.getElementsByName("dataNasc")[0].value = "";
+  document.getElementsByName("telefone")[0].value = "";
+  document.getElementsByName("endereco")[0].value = "";
+  document.getElementsByName("cargo")[0].value = "";
+  document.getElementsByName("nomeUsuario")[0].value = "";
+  document.getElementsByName("senha")[0].value = "";
 }
 
 function cadastrarFornecedor() {
@@ -98,6 +114,12 @@ function cadastrarFornecedor() {
     .then((response) => response.json())
     .then((json) => console.log(json))
     .catch((err) => console.log(err));
+
+  document.getElementsByName("nome")[0].value = "";
+  document.getElementsByName("razaoSocial")[0].value = "";
+  document.getElementsByName("cnpj")[0].value = "";
+  document.getElementsByName("telefone")[0].value = "";
+  document.getElementsByName("descricao")[0].value = "";
 }
 
 function cadastrarProduto() {
@@ -136,6 +158,17 @@ function cadastrarProduto() {
     .then((response) => response.json())
     .then((json) => console.log(json))
     .catch((err) => console.log(err));
+
+  document.getElementsByName("nome")[0].value = "";
+  document.getElementsByName("codBarra")[0].value = "";
+  document.getElementsByName("preco")[0].value = "";
+  document.getElementsByName("marca")[0].value = "";
+  document.getElementsByName("tipo")[0].value = "";
+  document.getElementsByName("dataVal")[0].value = "";
+  document.getElementsByName("lote")[0].value = "";
+  document.getElementsByName("quantidade")[0].value = "";
+  document.getElementsByName("fornecedor")[0].value = "";
+  document.getElementsByName("descricao")[0].value = "";
 }
 
 
