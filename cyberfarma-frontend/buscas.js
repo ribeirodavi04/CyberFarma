@@ -1,3 +1,4 @@
+
 async function buscarFornecedores() {
   const url = "http://localhost:3000/fornecedores";
   const fornecedores = await fetch(url).then((res) => res.json());
@@ -11,38 +12,6 @@ async function buscarFornecedores() {
   document.getElementById("fornecedores").innerHTML = output;
 }
 
-// Fornecedor 
-async function buscarFornecedoresTBL() {
-
-  const url = "http://localhost:3000/fornecedores";
-  const fornecedores = await fetch(url).then((res) => res.json());
-  console.log(fornecedores);
-
-  let output = "";
-  let output2 = `
-  <tr>
-  <th scope="col">Id</th>
-  <th scope="col">Nome</th>
-  <th scope="col">Razão Social</th>
-  <th scope="col">CNPJ</th>
-  <th scope="col">Descrição</th>
-</tr>
-  
-  `
-  
-  fornecedores.fornecedores.map((item) => {
-    output += `<tr>
-      <th>${item.idFornecedor}</th>
-      <td>${item.nome}</td>
-      <td>${item.razaoSocial}</td>
-      <td>${item.cnpj}</td>
-      <td>${item.descricao}</td>
-  </tr>`;
-  });
-  document.getElementById("bodyinfos").innerHTML = output;
-  document.getElementById("headerId").innerHTML = output2;
-}
-
 
 // Cliente
 async function buscarClientesTBL() {
@@ -52,14 +21,13 @@ async function buscarClientesTBL() {
 
   let output = "";
   let output2 = `
-  <tr>
-  <th scope="col">Id</th>
-  <th scope="col">Nome</th>
-  <th scope="col">CPF</th>
-  <th scope="col">Telefone</th>
-  <th scope="col">Endereço</th>
-</tr>
-` 
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Nome</th>
+      <th scope="col">CPF</th>
+      <th scope="col">Telefone</th>
+      <th scope="col">Endereço</th>
+    </tr>` 
   clientes.clientes.map((item) => {
     output += `<tr>
       <th>${item.idCliente}</th>
@@ -67,6 +35,7 @@ async function buscarClientesTBL() {
       <td>${item.cpf}</td>
       <td>${item.telefone}</td>
       <td>${item.endereco}</td>
+      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idCliente}, 1)">Excluir</button></td> 
   </tr>`;
   });
   document.getElementById("bodyinfos").innerHTML = output;
@@ -107,12 +76,50 @@ async function buscarFuncionariosTBL() {
       <td>${item.telefone}</td>
       <td>${item.endereco}</td>
       <td>${dataStr.substring(0, 10)}</td>
+      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idFuncionario}, 2)">Excluir</button></td> 
   </tr>`;
   });
   document.getElementById("bodyinfos").innerHTML = output;
   document.getElementById("headerId").innerHTML = output2
 
 }
+
+
+// Fornecedor 
+async function buscarFornecedoresTBL() {
+
+  const url = "http://localhost:3000/fornecedores";
+  const fornecedores = await fetch(url).then((res) => res.json());
+  console.log(fornecedores);
+
+  let output = "";
+  let output2 = `
+  <tr>
+  <th scope="col">Id</th>
+  <th scope="col">Nome</th>
+  <th scope="col">Razão Social</th>
+  <th scope="col">CNPJ</th>
+  <th scope="col">Descrição</th>
+</tr>
+  
+  `
+  
+  fornecedores.fornecedores.map((item) => {
+    output += `<tr>
+      <th>${item.idFornecedor}</th>
+      <td>${item.nome}</td>
+      <td>${item.razaoSocial}</td>
+      <td>${item.cnpj}</td>
+      <td>${item.descricao}</td>
+      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idFornecedor}, 3)">Excluir</button></td> 
+  </tr>`;
+  });
+  document.getElementById("bodyinfos").innerHTML = output;
+  document.getElementById("headerId").innerHTML = output2;
+}
+
+
+
 
 
 //Produto
@@ -156,6 +163,7 @@ async function buscarProdutosTBL() {
       <td>${dataStr.substring(0,10)}</td>
       <td>${item.nomeFornecedor}</td>
       <td>${item.descricao}</td>
+      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idProduto}, 4)">Excluir</button></td> 
 
   </tr>`;
   });
@@ -178,3 +186,56 @@ async function buscarProdutosTBL() {
     }
 
   }
+
+function deleteRow(id, i){
+  let url = '';
+  let body = {};
+
+  if(i==1){
+    url = 'http://localhost:3000/clientes';
+    body = {
+      idCliente: id
+    };
+    deleteSQL(url, body);
+    menuControl(i);
+    menuControl(i);
+  }else if(i==2){
+    url = 'http://localhost:3000/funcionarios';
+    body = {
+      idFuncionario: id
+    };
+    deleteSQL(url, body)
+    menuControl(i);
+    menuControl(i);
+    menuControl(i);
+  }else if(i==3){
+    url = 'http://localhost:3000/fornecedores';
+    body = {
+      idFornecedor: id
+    };
+    deleteSQL(url, body)
+    menuControl(i);
+    menuControl(i);
+    menuControl(i);
+  }else if(i==4){
+    url = 'http://localhost:3000/produtos';
+    body = {
+      idProduto: id
+    };
+    deleteSQL(url, body)
+    menuControl(i);
+    menuControl(i);
+    menuControl(i);
+  }  
+}
+
+function deleteSQL(url, body){
+  fetch(url, {
+    method: "DELETE",
+    body: JSON.stringify(body),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch((err) => console.log(err));
+}
