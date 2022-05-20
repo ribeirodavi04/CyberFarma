@@ -1,19 +1,4 @@
-
-async function buscarFornecedores() {
-  const url = "http://localhost:3000/fornecedores";
-  const fornecedores = await fetch(url).then((res) => res.json());
-  console.log(fornecedores);
-
-  let output = "";
-
-  fornecedores.fornecedores.map((item) => {
-    output += `<option value="${item.idFornecedor}">${item.nome}</option>`;
-  });
-  document.getElementById("fornecedores").innerHTML = output;
-}
-
-
-// Cliente
+//-----------------------Cliente
 async function buscarClientesTBL() {
   const url = "http://localhost:3000/clientes";
   const clientes = await fetch(url).then((res) => res.json());
@@ -46,7 +31,7 @@ async function buscarClientesTBL() {
 }
 
 
-//Funcionario
+//----------------------Funcionario
 async function buscarFuncionariosTBL() {
   const url = "http://localhost:3000/funcionarios";
   const funcionarios = await fetch(url).then((res) => res.json());
@@ -89,7 +74,7 @@ async function buscarFuncionariosTBL() {
 }
 
 
-// Fornecedor 
+//------------------------Fornecedor 
 async function buscarFornecedoresTBL() {
 
   const url = "http://localhost:3000/fornecedores";
@@ -107,8 +92,6 @@ async function buscarFornecedoresTBL() {
   <th scope="col">Funções</th>
   </tr>
   `
-  
-  let i = 0;
   fornecedores.fornecedores.map((item) => {
     output += `<tr>
       <th>${item.idFornecedor}</th>
@@ -124,15 +107,10 @@ async function buscarFornecedoresTBL() {
   });
   document.getElementById("bodyinfos").innerHTML = output;
   document.getElementById("headerId").innerHTML = output2;
-  //document.getElementsByClassName("telaformulario").innerHTML += output3;
 }
 
 
-
-
-
-//Produto
-
+//--------------------Produto
 async function buscarProdutosTBL() {
   const url = "http://localhost:3000/produtos";
   const produtos = await fetch(url).then((res) => res.json());
@@ -182,7 +160,119 @@ async function buscarProdutosTBL() {
 
 }
 
-  function menuControl (index){
+
+//----------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------DELETAR-------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+
+async function deleteRow(id, i){
+  let url = '';
+  let body = {};
+
+  if(i==1){
+    url = 'http://localhost:3000/clientes';
+    body = {
+      idCliente: id
+    };
+    await deleteSQL(url, body);
+    menuControl(i);
+  }else if(i==2){
+    url = 'http://localhost:3000/funcionarios';
+    body = {
+      idFuncionario: id
+    };
+    await deleteSQL(url, body)
+    menuControl(i);
+  }else if(i==3){
+    url = 'http://localhost:3000/fornecedores';
+    body = {
+      idFornecedor: id
+    };
+    await deleteSQL(url, body)
+    menuControl(i);
+  }else if(i==4){
+    url = 'http://localhost:3000/produtos';
+    body = {
+      idProduto: id
+    };
+    await deleteSQL(url, body)
+    menuControl(i);
+  }  
+}
+
+async function deleteSQL(url, body){
+  await fetch(url, {
+    method: "DELETE",
+    body: JSON.stringify(body),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch((err) => console.log(err));
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------alterarações-------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+
+function cancelarAlteracao(){
+  document.getElementById('alterarInfos').style.display = "none";
+}
+
+//----------------------------------------------FORNECEDORES------------------------------------------------------------
+async function buscarFornecedor(id){
+  document.getElementById('alterarInfos').style.display = "block";
+  const url = `http://localhost:3000/fornecedores/${id}`;
+  const fornecedor = await fetch(url).then((res) => res.json());
+
+  document.getElementsByTagName('input')[0].value = fornecedor.fornecedor.idFornecedor
+  document.getElementsByTagName('input')[1].value = fornecedor.fornecedor.nome
+  document.getElementsByTagName('input')[2].value = fornecedor.fornecedor.razaoSocial
+  document.getElementsByTagName('input')[3].value = fornecedor.fornecedor.cnpj
+  document.getElementsByTagName('input')[4].value = fornecedor.fornecedor.telefone
+  document.getElementsByTagName('textarea')[0].value = fornecedor.fornecedor.descricao
+  console.log(fornecedor.fornecedor);
+  
+}
+
+
+async function alterarFornecedor(){
+  
+  let id = document.getElementsByName("id")[0].value;
+  let nome = document.getElementsByName("nome")[0].value;
+  let razaoSocial = document.getElementsByName("razaoSocial")[0].value;
+  let cnpj = document.getElementsByName("cnpj")[0].value;
+  let telefone = document.getElementsByName("telefone")[0].value;
+  let descricao = document.getElementsByName("descricao")[0].value;
+
+  let url = `http://localhost:3000/fornecedores`;
+  console.log(nome, razaoSocial, cnpj, telefone, descricao);
+
+  body = {
+    nome: nome,
+    razaoSocial: razaoSocial,
+    cnpj: cnpj,
+    telefone: telefone,
+    descricao: descricao,
+    idFornecedor: id
+  };
+
+  await fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch((err) => console.log(err));
+
+  document.getElementById('alterarInfos').style.display = "none";
+  buscarFornecedoresTBL()
+}
+//----------------------------------------------------------------------------------------------------------------------
+
+
+function menuControl (index){
     if (index === 1){
       buscarClientesTBL()
     }else if (index ===2){
@@ -281,7 +371,7 @@ async function buscarProdutosTBL() {
           </tbody>
         </table>
       `
-      document.getElementById('alterarInfos').innerHTML+= output;
+      document.getElementById('alterarInfos').innerHTML = output;
     }else if (index === 4){
       buscarProdutosTBL()
     }else{
@@ -290,112 +380,24 @@ async function buscarProdutosTBL() {
 
   }
 
-//----------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------DELETAR-------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------
-
-async function deleteRow(id, i){
-  let url = '';
-  let body = {};
-
-  if(i==1){
-    url = 'http://localhost:3000/clientes';
-    body = {
-      idCliente: id
-    };
-    await deleteSQL(url, body);
-    menuControl(i);
-  }else if(i==2){
-    url = 'http://localhost:3000/funcionarios';
-    body = {
-      idFuncionario: id
-    };
-    await deleteSQL(url, body)
-    menuControl(i);
-  }else if(i==3){
-    url = 'http://localhost:3000/fornecedores';
-    body = {
-      idFornecedor: id
-    };
-    await deleteSQL(url, body)
-    menuControl(i);
-  }else if(i==4){
-    url = 'http://localhost:3000/produtos';
-    body = {
-      idProduto: id
-    };
-    await deleteSQL(url, body)
-    menuControl(i);
-  }  
-}
-
-async function deleteSQL(url, body){
-  await fetch(url, {
-    method: "DELETE",
-    body: JSON.stringify(body),
-    headers: { "Content-type": "application/json; charset=UTF-8" },
-  })
-    .then((response) => response.json())
-    .then((json) => console.log(json))
-    .catch((err) => console.log(err));
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------alterarações-------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------
-
-function cancelarAlteracao(){
-  document.getElementById('alterarInfos').style.display = "none";
-}
-
-async function buscarFornecedor(id){
-  document.getElementById('alterarInfos').style.display = "block";
-  const url = `http://localhost:3000/fornecedores/${id}`;
-  const fornecedor = await fetch(url).then((res) => res.json());
-
-  document.getElementsByTagName('input')[0].value = fornecedor.fornecedor.idFornecedor
-  document.getElementsByTagName('input')[1].value = fornecedor.fornecedor.nome
-  document.getElementsByTagName('input')[2].value = fornecedor.fornecedor.razaoSocial
-  document.getElementsByTagName('input')[3].value = fornecedor.fornecedor.cnpj
-  document.getElementsByTagName('input')[4].value = fornecedor.fornecedor.telefone
-  document.getElementsByTagName('textarea')[0].value = fornecedor.fornecedor.descricao
-  console.log(fornecedor.fornecedor);
+async function buscarFornecedores() {
+  const url = "http://localhost:3000/fornecedores";
+  const fornecedores = await fetch(url).then((res) => res.json());
+  console.log(fornecedores);
   
-}
-
-
-async function alterarFornecedor(){
+  let output = "";
   
-  let id = document.getElementsByName("id")[0].value;
-  let nome = document.getElementsByName("nome")[0].value;
-  let razaoSocial = document.getElementsByName("razaoSocial")[0].value;
-  let cnpj = document.getElementsByName("cnpj")[0].value;
-  let telefone = document.getElementsByName("telefone")[0].value;
-  let descricao = document.getElementsByName("descricao")[0].value;
-
-  let url = `http://localhost:3000/fornecedores`;
-  console.log(nome, razaoSocial, cnpj, telefone, descricao);
-
-  body = {
-    nome: nome,
-    razaoSocial: razaoSocial,
-    cnpj: cnpj,
-    telefone: telefone,
-    descricao: descricao,
-    idFornecedor: id
-  };
-
-  await fetch(url, {
-    method: "PATCH",
-    body: JSON.stringify(body),
-    headers: { "Content-type": "application/json; charset=UTF-8" },
-  })
-    .then((response) => response.json())
-    .then((json) => console.log(json))
-    .catch((err) => console.log(err));
-
-  document.getElementById('alterarInfos').style.display = "none";
-  buscarFornecedoresTBL()
+  fornecedores.fornecedores.map((item) => {
+    output += `<option value="${item.idFornecedor}">${item.nome}</option>`;
+  });
+  document.getElementById("fornecedores").innerHTML = output;
 }
+  
+  
+
+
+
+
+
 
 
