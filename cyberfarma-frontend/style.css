@@ -49,3 +49,6 @@ body{
     padding: 5%;
 }
 
+#alterarInfos{
+    display: none;
+}

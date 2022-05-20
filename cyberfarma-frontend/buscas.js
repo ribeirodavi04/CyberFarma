@@ -27,6 +27,7 @@ async function buscarClientesTBL() {
       <th scope="col">CPF</th>
       <th scope="col">Telefone</th>
       <th scope="col">Endereço</th>
+      <th scope="col">Funções</th>
     </tr>` 
   clientes.clientes.map((item) => {
     output += `<tr>
@@ -36,6 +37,7 @@ async function buscarClientesTBL() {
       <td>${item.telefone}</td>
       <td>${item.endereco}</td>
       <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idCliente}, 1)">Excluir</button></td> 
+      <td><button class="btn btn-warning" onclick="">Alterar</button></td> 
   </tr>`;
   });
   document.getElementById("bodyinfos").innerHTML = output;
@@ -61,6 +63,7 @@ async function buscarFuncionariosTBL() {
   <th scope="col">Endereço</th>
   <th scope="col">Telefone</th>
   <th scope="col">Data de Nascimento</th>
+  <th scope="col">Funções</th>
 </tr>
 ` 
 
@@ -76,7 +79,8 @@ async function buscarFuncionariosTBL() {
       <td>${item.telefone}</td>
       <td>${item.endereco}</td>
       <td>${dataStr.substring(0, 10)}</td>
-      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idFuncionario}, 2)">Excluir</button></td> 
+      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idFuncionario}, 2)">Excluir</button></td>
+      <td><button class="btn btn-warning" onclick="">Alterar</button></td>  
   </tr>`;
   });
   document.getElementById("bodyinfos").innerHTML = output;
@@ -100,10 +104,11 @@ async function buscarFornecedoresTBL() {
   <th scope="col">Razão Social</th>
   <th scope="col">CNPJ</th>
   <th scope="col">Descrição</th>
-</tr>
-  
+  <th scope="col">Funções</th>
+  </tr>
   `
   
+  let i = 0;
   fornecedores.fornecedores.map((item) => {
     output += `<tr>
       <th>${item.idFornecedor}</th>
@@ -111,11 +116,15 @@ async function buscarFornecedoresTBL() {
       <td>${item.razaoSocial}</td>
       <td>${item.cnpj}</td>
       <td>${item.descricao}</td>
-      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idFornecedor}, 3)">Excluir</button></td> 
+      <td>
+        <button class="btn btn-outline-danger" onclick="deleteRow(${item.idFornecedor}, 3)">Excluir</button>
+        <button class="btn btn-warning" onclick="buscarFornecedor(${item.idFornecedor})">Alterar</button>
+      </td>
   </tr>`;
   });
   document.getElementById("bodyinfos").innerHTML = output;
   document.getElementById("headerId").innerHTML = output2;
+  //document.getElementsByClassName("telaformulario").innerHTML += output3;
 }
 
 
@@ -144,6 +153,7 @@ async function buscarProdutosTBL() {
   <th scope="col">Data de Validade</th>
   <th scope="col">Fornecedor</th>
   <th scope="col">Descrição</th>
+  <th scope="col">Funções</th>
 </tr>
 ` 
 
@@ -164,7 +174,7 @@ async function buscarProdutosTBL() {
       <td>${item.nomeFornecedor}</td>
       <td>${item.descricao}</td>
       <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idProduto}, 4)">Excluir</button></td> 
-
+      <td><button class="btn btn-warning" onclick="">Alterar</button></td> 
   </tr>`;
   });
   document.getElementById("bodyinfos").innerHTML = output;
@@ -179,6 +189,99 @@ async function buscarProdutosTBL() {
       buscarFuncionariosTBL()
     }else if (index === 3){
       buscarFornecedoresTBL()
+      output = `
+        <h5>Alterar Informações do Fornecedor:</h5>
+        <p></p>
+        <table>
+          <tbody id="alterar">
+            <tr>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="id"
+                  size="2"
+                  disabled
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nome"
+                  aria-label="Digite o nome"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="nome"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite a razão social"
+                  aria-label="Digite a razão social"
+                  aria-describedby="basic-addon1"
+                  name="razaoSocial"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o CNPJ"
+                  aria-label="Digite o CNPJ"
+                  aria-describedby="basic-addon1"
+                  maxlength="14"
+                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                  name="cnpj"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o telefone"
+                  aria-label="Digite o CNPJ"
+                  aria-describedby="basic-addon1"
+                  maxlength="11"
+                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                  name="telefone"
+                  required
+                />
+              </td>
+
+              <td>
+                <textarea
+                  class="form-control"
+                  id="exampleFormControlTextarea1"
+                  rows="1"
+                  placeholder="Digite aqui a Descrição"
+                  aria-label="Digite a Descrição"
+                  name="descricao"
+                ></textarea>
+              </td>
+
+              <td>                
+                <input type="submit" class="btn btn-outline-success" value="Alterar" onclick="alterarFornecedor()"/>
+              </td>
+
+              <td>
+                <input type="reset" value="Cancelar" class="btn btn-outline-danger" onclick="cancelarAlteracao()"/>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      `
+      document.getElementById('alterarInfos').innerHTML+= output;
     }else if (index === 4){
       buscarProdutosTBL()
     }else{
@@ -187,7 +290,11 @@ async function buscarProdutosTBL() {
 
   }
 
-function deleteRow(id, i){
+//----------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------DELETAR-------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+
+async function deleteRow(id, i){
   let url = '';
   let body = {};
 
@@ -196,41 +303,34 @@ function deleteRow(id, i){
     body = {
       idCliente: id
     };
-    deleteSQL(url, body);
-    menuControl(i);
+    await deleteSQL(url, body);
     menuControl(i);
   }else if(i==2){
     url = 'http://localhost:3000/funcionarios';
     body = {
       idFuncionario: id
     };
-    deleteSQL(url, body)
-    menuControl(i);
-    menuControl(i);
+    await deleteSQL(url, body)
     menuControl(i);
   }else if(i==3){
     url = 'http://localhost:3000/fornecedores';
     body = {
       idFornecedor: id
     };
-    deleteSQL(url, body)
-    menuControl(i);
-    menuControl(i);
+    await deleteSQL(url, body)
     menuControl(i);
   }else if(i==4){
     url = 'http://localhost:3000/produtos';
     body = {
       idProduto: id
     };
-    deleteSQL(url, body)
-    menuControl(i);
-    menuControl(i);
+    await deleteSQL(url, body)
     menuControl(i);
   }  
 }
 
-function deleteSQL(url, body){
-  fetch(url, {
+async function deleteSQL(url, body){
+  await fetch(url, {
     method: "DELETE",
     body: JSON.stringify(body),
     headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -239,3 +339,63 @@ function deleteSQL(url, body){
     .then((json) => console.log(json))
     .catch((err) => console.log(err));
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------alterarações-------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+
+function cancelarAlteracao(){
+  document.getElementById('alterarInfos').style.display = "none";
+}
+
+async function buscarFornecedor(id){
+  document.getElementById('alterarInfos').style.display = "block";
+  const url = `http://localhost:3000/fornecedores/${id}`;
+  const fornecedor = await fetch(url).then((res) => res.json());
+
+  document.getElementsByTagName('input')[0].value = fornecedor.fornecedor.idFornecedor
+  document.getElementsByTagName('input')[1].value = fornecedor.fornecedor.nome
+  document.getElementsByTagName('input')[2].value = fornecedor.fornecedor.razaoSocial
+  document.getElementsByTagName('input')[3].value = fornecedor.fornecedor.cnpj
+  document.getElementsByTagName('input')[4].value = fornecedor.fornecedor.telefone
+  document.getElementsByTagName('textarea')[0].value = fornecedor.fornecedor.descricao
+  console.log(fornecedor.fornecedor);
+  
+}
+
+
+async function alterarFornecedor(){
+  
+  let id = document.getElementsByName("id")[0].value;
+  let nome = document.getElementsByName("nome")[0].value;
+  let razaoSocial = document.getElementsByName("razaoSocial")[0].value;
+  let cnpj = document.getElementsByName("cnpj")[0].value;
+  let telefone = document.getElementsByName("telefone")[0].value;
+  let descricao = document.getElementsByName("descricao")[0].value;
+
+  let url = `http://localhost:3000/fornecedores`;
+  console.log(nome, razaoSocial, cnpj, telefone, descricao);
+
+  body = {
+    nome: nome,
+    razaoSocial: razaoSocial,
+    cnpj: cnpj,
+    telefone: telefone,
+    descricao: descricao,
+    idFornecedor: id
+  };
+
+  await fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch((err) => console.log(err));
+
+  document.getElementById('alterarInfos').style.display = "none";
+  buscarFornecedoresTBL()
+}
+
+
