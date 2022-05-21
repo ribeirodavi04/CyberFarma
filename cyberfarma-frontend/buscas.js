@@ -165,8 +165,12 @@ async function buscarProdutosTBL() {
       <td>${dataStr.substring(0,10)}</td>
       <td>${item.nomeFornecedor}</td>
       <td>${item.descricao}</td>
-      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idProduto}, 4)">Excluir</button></td> 
-      <td><button class="btn btn-warning" onclick="">Alterar</button></td> 
+      <td>
+        <button class="btn btn-outline-danger" onclick="deleteRow(${item.idProduto}, 4)">Excluir</button>
+      </td>
+      <td>
+        <button class="btn btn-warning" onclick="buscarProduto(${item.idProduto})">Alterar</button>
+      </td> 
   </tr>`;
   });
   document.getElementById("bodyinfos").innerHTML = output;
@@ -383,6 +387,65 @@ async function alterarFuncionario(){
   buscarFuncionariosTBL()
 }
 
+//----------------------------------------------FUNCIONARIOS-----------------------------------------------------------
+async function buscarProduto(id){
+  document.getElementById('alterarInfos').style.display = "block";
+  buscarFornecedores()
+  const url = `http://localhost:3000/produtos/${id}`;
+  const produto = await fetch(url).then((res)=> res.json());
+
+  document.getElementsByTagName('input')[0].value = produto.produtos.idProduto
+  document.getElementsByTagName('input')[1].value = produto.produtos.nome
+  document.getElementsByTagName('input')[2].value = produto.produtos.codBarra
+  document.getElementsByTagName('input')[3].value = produto.produtos.tipo
+  document.getElementsByTagName('input')[4].value = produto.produtos.marca
+  document.getElementsByTagName('input')[5].value = produto.produtos.quantidade
+  document.getElementsByTagName('input')[6].value = produto.produtos.preco
+  document.getElementsByTagName('input')[7].value = produto.produtos.lote
+  document.getElementsByTagName('input')[8].value = produto.produtos.dataValidade
+  document.getElementsByTagName('textarea')[0].value = produto.produtos.descricao 
+  console.log(produto);
+}
+async function alterarProduto(){
+  let id = document.getElementsByName("id")[0].value;
+  let nome = document.getElementsByName("nome")[0].value;
+  let codBarras = document.getElementsByName("codBarras")[0].value;
+  let tipo = document.getElementsByName("tipo")[0].value;
+  let marca = document.getElementsByName("marca")[0].value;
+  let quantidade = document.getElementsByName("quantidade")[0].value;
+  let preco = document.getElementsByName("preco")[0].value;
+  let lote = document.getElementsByName("lote")[0].value;
+  let dataVal = document.getElementsByName("dataVal")[0].value;
+  let descricao = document.getElementsByName("descricao")[0].value;
+  let idFornecedor = document.getElementsByName("fornecedor")[0].value;
+
+  let url = `http://localhost:3000/produtos`;
+  body = {
+    idFornecedor: idFornecedor,
+    codBarra: codBarras,
+    nome: nome,
+    tipo: tipo,
+    marca: marca,
+    quantidade: quantidade,
+    lote: lote,
+    preco: preco,
+    dataValidade: dataVal,
+    descricao:descricao,
+    idProduto: id
+  };
+  console.log(idFornecedor, codBarras, nome, tipo, marca, quantidade, lote, preco, dataVal, descricao, id)
+  await fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch((err) => console.log(err));
+
+  document.getElementById('alterarInfos').style.display = "none";
+  buscarProdutosTBL()
+}
 
 
 
@@ -725,6 +788,153 @@ function menuControl (index){
       document.getElementById('alterarInfos').innerHTML = output;
     }else if (index === 4){
       buscarProdutosTBL()
+      let output = `
+        <h5>Alterar Informações do Produto:</h5>
+        <p></p>
+        <table>
+          <tbody id="alterar">
+            <tr>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="id"
+                  size="2"
+                  disabled
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nome"
+                  aria-label="Digite o nome"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="nome"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Código de Barras"
+                  aria-label="Digite o codigo de barras"
+                  aria-describedby="basic-addon1"
+                  maxlength="14"
+                  name="codBarras"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o tipo"
+                  aria-label="Digite o tipo"
+                  aria-describedby="basic-addon1"
+                  maxlength="30"
+                  name="tipo"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Marca"
+                  aria-label="Digite a marca"
+                  aria-describedby="basic-addon1"
+                  maxlength="30"
+                  name="marca"
+                  required
+                />
+              </td>      
+
+              <td>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Quantidade"
+                  aria-label="Digite o quantidade"
+                  aria-describedby="basic-addon1"
+                  name="quantidade"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Preço"
+                  aria-label="Digite o preço"
+                  aria-describedby="basic-addon1"
+                  maxlength="30"
+                  name="preco"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Lote"
+                  aria-label="Digite o lote"
+                  aria-describedby="basic-addon1"
+                  maxlength="30"
+                  name="lote"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="date"
+                  name="dataVal"
+                  class="form-control"
+                  placeholder=""
+                  aria-label=""
+                  aria-describedby="basic-addon1"
+                  data-date-format="DD MMMM YYYY"
+                />
+              </td>
+
+              <td>
+                <select class="custom-select" id="fornecedoresS" name="fornecedor">
+                  <option selected>Selecione</option>
+                </select>
+              </td>
+              <td>
+                <textarea
+                  class="form-control"
+                  id="exampleFormControlTextarea1"
+                  rows="1"
+                  placeholder="Digite aqui a Descrição"
+                  aria-label="Digite a Descrição"
+                  name="descricao"
+                ></textarea>
+              </td>
+
+              <td>                
+                <input type="submit" class="btn btn-outline-success" value="Alterar" onclick="alterarProduto()"/>
+              </td>
+
+              <td>
+                <input type="reset" value="Cancelar" class="btn btn-outline-danger" onclick="cancelarAlteracao()"/>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      `
+      document.getElementById('alterarInfos').innerHTML = output;
     }else{
 
     }
@@ -740,9 +950,8 @@ async function buscarFornecedores() {
   fornecedores.fornecedores.map((item) => {
     output += `<option value="${item.idFornecedor}">${item.nome}</option>`;
   });
-  document.getElementById("fornecedores").innerHTML = output;
+  document.getElementById("fornecedoresS").innerHTML = output;
 }
-  
   
 
 
