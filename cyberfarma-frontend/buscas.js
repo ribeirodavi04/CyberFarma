@@ -53,8 +53,8 @@ async function buscarFuncionariosTBL() {
   <th scope="col">Nome de Usuario</th>
   <th scope="col">CPF</th>
   <th scope="col">Cargo</th>
-  <th scope="col">Endereço</th>
   <th scope="col">Telefone</th>
+  <th scope="col">Endereço</th>
   <th scope="col">Data de Nascimento</th>
   <th scope="col">Funções</th>
 </tr>
@@ -74,7 +74,7 @@ async function buscarFuncionariosTBL() {
       <td>${dataStr.substring(0, 10)}</td>
       <td>
         <button class="btn btn-outline-danger" onclick="deleteRow(${item.idFuncionario}, 2)">Excluir</button>
-        <button class="btn btn-warning" onclick="buscarFornecedor(${item.idFuncionario})">Alterar</button>
+        <button class="btn btn-warning" onclick="buscarFuncionario(${item.idFuncionario})">Alterar</button>
       </td>
         
   </tr>`;
@@ -331,7 +331,57 @@ async function alterarCliente(){
 }
 
 //----------------------------------------------FUNCIONARIOS-----------------------------------------------------------
+async function buscarFuncionario(id){
+  document.getElementById('alterarInfos').style.display = "block";
+  const url = `http://localhost:3000/funcionarios/${id}`;
+  const funcionario = await fetch(url).then((res)=> res.json());
 
+  document.getElementsByTagName('input')[0].value = funcionario.funcionario.idFuncionario
+  document.getElementsByTagName('input')[1].value = funcionario.funcionario.nome
+  document.getElementsByTagName('input')[2].value = funcionario.funcionario.nomeUsuario
+  document.getElementsByTagName('input')[4].value = funcionario.funcionario.cpf
+  document.getElementsByTagName('input')[5].value = funcionario.funcionario.cargo
+  document.getElementsByTagName('input')[6].value = funcionario.funcionario.telefone
+  document.getElementsByTagName('input')[7].value = funcionario.funcionario.endereco
+  document.getElementsByTagName('input')[8].value = funcionario.funcionario.dataNasc 
+  console.log(funcionario.funcionario);
+}
+async function alterarFuncionario(){
+  let id = document.getElementsByName("id")[0].value;
+  let nome = document.getElementsByName("nome")[0].value;
+  let nomeUsuario = document.getElementsByName("nomeUsuario")[0].value;
+  let senha = document.getElementsByName("senha")[0].value;
+  let cpf = document.getElementsByName("cpf")[0].value;
+  let cargo = document.getElementsByName("cargo")[0].value;
+  let telefone = document.getElementsByName("telefone")[0].value;
+  let endereco = document.getElementsByName("endereco")[0].value;
+  let dataNasc = document.getElementsByName("dataNasc")[0].value;
+ 
+  let url = `http://localhost:3000/funcionarios`;
+  body = {
+    nome: nome,
+    nomeUsuario:nomeUsuario,
+    senha: senha,
+    cpf: cpf,
+    cargo: cargo,
+    telefone: telefone,
+    endereco: endereco,
+    dataNasc: dataNasc,
+    idFuncionario: id
+  };
+
+  await fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch((err) => console.log(err));
+
+  document.getElementById('alterarInfos').style.display = "none";
+  buscarFuncionariosTBL()
+}
 
 
 
@@ -451,6 +501,135 @@ function menuControl (index){
       document.getElementById('alterarInfos').innerHTML = output;
     }else if (index ===2){
       buscarFuncionariosTBL()
+      let output = `
+        <h5>Alterar Informações do Funcionario:</h5>
+        <p></p>
+        <table>
+          <tbody id="alterar">
+            <tr>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="id"
+                  size="2"
+                  disabled
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nome"
+                  aria-label="Digite o nome"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="nome"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nome De Usuario"
+                  aria-label="Digite o nome de usuario"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="nomeUsuario"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Nova senha"
+                  aria-label="Digite a nova senha"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="senha"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o CPF"
+                  aria-label="Digite o CPF"
+                  aria-describedby="basic-addon1"
+                  name="cpf"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o Cargo"
+                  aria-label="Digite o Cargo"
+                  aria-describedby="basic-addon1"
+                  maxlength="14"
+                  name="cargo"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o telefone"
+                  aria-label="Digite o telefone"
+                  aria-describedby="basic-addon1"
+                  maxlength="30"
+                  name="telefone"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o endereço"
+                  aria-label="Digite o endereco"
+                  aria-describedby="basic-addon1"
+                  maxlength="30"
+                  name="endereco"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="date"
+                  name="dataNasc"
+                  class="form-control"
+                  placeholder=""
+                  aria-label=""
+                  aria-describedby="basic-addon1"
+                  data-date-format="DD MMMM YYYY"
+                />
+              </td>
+
+              <td>                
+                <input type="submit" class="btn btn-outline-success" value="Alterar" onclick="alterarFuncionario()"/>
+              </td>
+
+              <td>
+                <input type="reset" value="Cancelar" class="btn btn-outline-danger" onclick="cancelarAlteracao()"/>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      `
+      document.getElementById('alterarInfos').innerHTML = output;
     }else if (index === 3){
       buscarFornecedoresTBL()
       let output = `
