@@ -12,17 +12,25 @@ async function buscarClientesTBL() {
       <th scope="col">CPF</th>
       <th scope="col">Telefone</th>
       <th scope="col">Endereço</th>
+      <th scope="col">Data de Nascimento</th>
+      <th scope="col">Deficiência</th>
       <th scope="col">Funções</th>
     </tr>` 
   clientes.clientes.map((item) => {
+    let dataStr = item.dataNasc;
+
     output += `<tr>
       <th>${item.idCliente}</th>
       <td>${item.nome}</td>
       <td>${item.cpf}</td>
       <td>${item.telefone}</td>
       <td>${item.endereco}</td>
-      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idCliente}, 1)">Excluir</button></td> 
-      <td><button class="btn btn-warning" onclick="">Alterar</button></td> 
+      <td>${dataStr.substring(0,10)}</td>
+      <td>${item.deficiencia}</td>
+      <td>
+        <button class="btn btn-outline-danger" onclick="deleteRow(${item.idCliente}, 1)">Excluir</button>
+        <button class="btn btn-warning" onclick="buscarCliente(${item.idCliente})">Alterar</button>
+      </td> 
   </tr>`;
   });
   document.getElementById("bodyinfos").innerHTML = output;
@@ -64,8 +72,11 @@ async function buscarFuncionariosTBL() {
       <td>${item.telefone}</td>
       <td>${item.endereco}</td>
       <td>${dataStr.substring(0, 10)}</td>
-      <td><button class="btn btn-outline-danger" onclick="deleteRow(${item.idFuncionario}, 2)">Excluir</button></td>
-      <td><button class="btn btn-warning" onclick="">Alterar</button></td>  
+      <td>
+        <button class="btn btn-outline-danger" onclick="deleteRow(${item.idFuncionario}, 2)">Excluir</button>
+        <button class="btn btn-warning" onclick="buscarFornecedor(${item.idFuncionario})">Alterar</button>
+      </td>
+        
   </tr>`;
   });
   document.getElementById("bodyinfos").innerHTML = output;
@@ -88,16 +99,19 @@ async function buscarFornecedoresTBL() {
   <th scope="col">Nome</th>
   <th scope="col">Razão Social</th>
   <th scope="col">CNPJ</th>
+  <th scope="col">Telefone</th>
   <th scope="col">Descrição</th>
   <th scope="col">Funções</th>
   </tr>
   `
   fornecedores.fornecedores.map((item) => {
+    
     output += `<tr>
       <th>${item.idFornecedor}</th>
       <td>${item.nome}</td>
       <td>${item.razaoSocial}</td>
       <td>${item.cnpj}</td>
+      <td>${item.telefone}</td>
       <td>${item.descricao}</td>
       <td>
         <button class="btn btn-outline-danger" onclick="deleteRow(${item.idFornecedor}, 3)">Excluir</button>
@@ -234,8 +248,6 @@ async function buscarFornecedor(id){
   console.log(fornecedor.fornecedor);
   
 }
-
-
 async function alterarFornecedor(){
   
   let id = document.getElementsByName("id")[0].value;
@@ -269,17 +281,179 @@ async function alterarFornecedor(){
   document.getElementById('alterarInfos').style.display = "none";
   buscarFornecedoresTBL()
 }
-//----------------------------------------------------------------------------------------------------------------------
 
+//--------------------------------------------------CLIENTES------------------------------------------------------------
+async function buscarCliente(id){
+  document.getElementById('alterarInfos').style.display = "block";
+  const url = `http://localhost:3000/clientes/${id}`;
+  const cliente = await fetch(url).then((res)=> res.json());
+
+  document.getElementsByTagName('input')[0].value = cliente.cliente.idCliente
+  document.getElementsByTagName('input')[1].value = cliente.cliente.nome
+  document.getElementsByTagName('input')[2].value = cliente.cliente.cpf
+  document.getElementsByTagName('input')[3].value = cliente.cliente.telefone
+  document.getElementsByTagName('input')[4].value = cliente.cliente.endereco
+  document.getElementsByTagName('input')[5].value = cliente.cliente.dataNasc
+  document.getElementsByTagName('input')[6].value = cliente.cliente.deficiencia 
+  console.log(cliente.cliente);
+}
+async function alterarCliente(){
+  let id = document.getElementsByName("id")[0].value;
+  let nome = document.getElementsByName("nome")[0].value;
+  let cpf = document.getElementsByName("cpf")[0].value;
+  let telefone = document.getElementsByName("telefone")[0].value;
+  let endereco = document.getElementsByName("endereco")[0].value;
+  let dataNasc = document.getElementsByName("dataNasc")[0].value;
+  let deficiencia = document.getElementsByName("deficiencia")[0].value;
+ 
+  let url = `http://localhost:3000/clientes`;
+  body = {
+    nome: nome,
+    cpf: cpf,
+    telefone: telefone,
+    endereco: endereco,
+    dataNasc: dataNasc,
+    deficiencia: deficiencia,
+    idCliente: id
+  };
+
+  await fetch(url, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+    headers: { "Content-type": "application/json; charset=UTF-8" },
+  })
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch((err) => console.log(err));
+
+  document.getElementById('alterarInfos').style.display = "none";
+  buscarClientesTBL()
+}
+
+//----------------------------------------------FUNCIONARIOS-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------
 
 function menuControl (index){
     if (index === 1){
       buscarClientesTBL()
+      let output = `
+        <h5>Alterar Informações do Cliente:</h5>
+        <p></p>
+        <table>
+          <tbody id="alterar">
+            <tr>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="id"
+                  size="2"
+                  disabled
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nome"
+                  aria-label="Digite o nome"
+                  aria-describedby="basic-addon1"
+                  required
+                  name="nome"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o CPF"
+                  aria-label="Digite o CPF"
+                  aria-describedby="basic-addon1"
+                  name="cpf"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o Telefone"
+                  aria-label="Digite o Telefone"
+                  aria-describedby="basic-addon1"
+                  maxlength="14"
+                  name="telefone"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite o endereço"
+                  aria-label="Digite o endereço"
+                  aria-describedby="basic-addon1"
+                  maxlength="30"
+                  name="endereco"
+                  required
+                />
+              </td>
+
+              <td>
+                <input
+                  type="date"
+                  name="dataNasc"
+                  class="form-control"
+                  placeholder=""
+                  aria-label=""
+                  aria-describedby="basic-addon1"
+                  data-date-format="DD MMMM YYYY"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Digite a deficiencia"
+                  aria-label="Digite a deficiencia"
+                  aria-describedby="basic-addon1"
+                  maxlength="30"
+                  name="deficiencia"
+                  required
+                />
+              </td>
+              <td>                
+                <input type="submit" class="btn btn-outline-success" value="Alterar" onclick="alterarCliente()"/>
+              </td>
+
+              <td>
+                <input type="reset" value="Cancelar" class="btn btn-outline-danger" onclick="cancelarAlteracao()"/>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      `
+      document.getElementById('alterarInfos').innerHTML = output;
     }else if (index ===2){
       buscarFuncionariosTBL()
     }else if (index === 3){
       buscarFornecedoresTBL()
-      output = `
+      let output = `
         <h5>Alterar Informações do Fornecedor:</h5>
         <p></p>
         <table>
@@ -329,7 +503,6 @@ function menuControl (index){
                   aria-label="Digite o CNPJ"
                   aria-describedby="basic-addon1"
                   maxlength="14"
-                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                   name="cnpj"
                   required
                 />
@@ -342,8 +515,7 @@ function menuControl (index){
                   placeholder="Digite o telefone"
                   aria-label="Digite o CNPJ"
                   aria-describedby="basic-addon1"
-                  maxlength="11"
-                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                  maxlength="30"
                   name="telefone"
                   required
                 />
@@ -377,8 +549,7 @@ function menuControl (index){
     }else{
 
     }
-
-  }
+}
 
 async function buscarFornecedores() {
   const url = "http://localhost:3000/fornecedores";
