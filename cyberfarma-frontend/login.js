@@ -1,29 +1,46 @@
-function login() {
-    event.preventDefault();
+async function login() {
+  event.preventDefault();
+
+  let nomeUsuario = document.getElementsByName("nomeUsuario")[0].value;
+  let senha = document.getElementsByName("senha")[0].value;
+  let adm = document.getElementsByName("adm")[0];
+
+  console.log(nomeUsuario, senha, adm.checked);
+
+  body = {
+    nomeUsuario: nomeUsuario,
+    senha: senha,
+  };
+
+  if (adm.checked === false) {
+    //funcionario
     let url = "http://localhost:3000/login/funcionario";
-  
-    let nomeUsuario = document.getElementsByName("nomeUsuario")[0].value;
-    let senha = document.getElementsByName("senha")[0].value;
-    
-  
-    console.log(nomeUsuario, senha);
-  
-    body = {
-      nomeUsuario: nomeUsuario,
-      senha: senha,
-    };
-  
-    fetch(url, {
+
+    let auth = await fetch(url, {
       method: "POST",
       body: JSON.stringify(body),
       headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json)) 
-      .catch((err) => console.log(err));
+    }).then((response) => response.json());
 
+    if (auth.loginAuth === true) {
+      window.location.href = "TelaDeRelatorios.html";
+    } else {
+      alert("Nome de usuário ou senha foram digitado errado.");
+    }
+  } else {
+    //administrador
+    let url = "http://localhost:3000/login/administrador";
 
-    window.location.href = "TelaDeRelatorios.html";
-    document.getElementsByName("nomeUsuario")[0].value = "";
-    document.getElementsByName("senha")[0].value = "";
+    let auth = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    }).then((response) => response.json());
+
+    if (auth.loginAuth === true) {
+      window.location.href = "TelaDeRelatorios.html";
+    } else {
+      alert("Nome de usuário ou senha foram digitado errado.");
+    }
   }
+}
