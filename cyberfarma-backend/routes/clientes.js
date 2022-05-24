@@ -122,6 +122,48 @@ router.get("/:idCliente", (req, res, next) => {
   });
 });
 
+//Retorn os dados de um cliente em especifico.
+router.get("/cpf/:cpfCliente", (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send({ error: error });
+    }
+    conn.query(
+      "SELECT * FROM clientes WHERE CPF_Cliente = ?;",
+      [req.params.cpfCliente],
+      (error, result, fiedls) => {
+        conn.release();
+        if (error) {
+          return res.status(500).send({ error: error });
+        }
+        if (result.length === 0) {
+          return res.status(404).send({
+            message: "Cliente não encontrado! :(",
+          });
+        }
+        const response = {
+          cliente: {
+            idCliente: result[0].idCliente,
+            nome: result[0].nomeCliente,
+            cpf: result[0].CPF_Cliente,
+            telefone: result[0].telefoneCliente,
+            endereco: result[0].enderecoCliente,
+            dataNasc: result[0].data_nasc_Cliente,
+            deficiencia: result[0].deficiencia,
+            request: {
+              tipo: "GET",
+              descricao: "Retorna um Cliente",
+              url: "http://localhost:3000/clientes/",
+            },
+          },
+        };
+        return res.status(200).send(response);
+      }
+    );
+  });
+});
+
+
 //Altera um Cliente
 router.patch("/", (req, res, next) => {
   mysql.getConnection((error, conn) => {

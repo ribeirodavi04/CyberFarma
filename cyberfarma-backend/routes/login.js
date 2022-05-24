@@ -76,6 +76,7 @@ router.post('/administrador', (req, res, next) => {
           return res.status(200).send({
             message: 'Autenticado com sucesso!',
             loginAuth: true,
+            idFunc: results[0].idFuncionario,
           })
         }
         return res.status(401).send({ message: 'Falha na autenticação!' })

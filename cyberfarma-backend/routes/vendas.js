@@ -61,7 +61,7 @@ router.post("/", (req, res, next) =>{
                 const response = {
                     message: "Venda inserida com sucesso! :)",
                     vendaCriada: {
-                        idVenda: result.idVenda,
+                        idVenda: result.insertId,
                         idCliente: req.body.idCliente,
                         idFuncionario: req.body.idFuncionario,
                         data: req.body.data,

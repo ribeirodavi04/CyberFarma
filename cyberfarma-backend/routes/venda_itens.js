@@ -46,7 +46,7 @@ router.post("/", (req, res, next) =>{
             return res.status(500).send({error:error})
         }
         conn.query(
-            "INSERT INTO venda_Itens (idProduto, idVenda, quantidadeVI, precoVI, codigoDeBarraVI ) VALUES (?, ?, ?, ?, ?);",
+            "INSERT INTO venda_itens (idProduto, idVenda, quantidadeVI, precoVI, codigoDeBarraVI ) VALUES (?, ?, ?, ?, ?);",
             [
                 req.body.idProduto,
                 req.body.idVenda,

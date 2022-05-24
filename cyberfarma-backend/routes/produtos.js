@@ -137,6 +137,51 @@ router.get("/:idProduto", (req, res, next) => {
   });
 });
 
+
+router.get("/codigoDeBarras/:codBarra", (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send({ error: error });
+    }
+    conn.query(
+      "SELECT * FROM produtos WHERE codBarraProd =?;",
+      [req.params.codBarra],
+      (error, result, fields) => {
+        conn.release();
+        if (error) {
+          return res.status(500).send({ error: error });
+        }
+        if (result.length === 0) {
+          return res.status(404).send({
+            message: "Produto não encontrado",
+          });
+        }
+        const response = {
+          produtos: {
+            idProduto: result[0].idProduto,
+            idFornecedor: result[0].idFornecedorProd,
+            codBarra: result[0].codBarraProd,
+            nome: result[0].nomeProd,
+            tipo: result[0].tipoProd,
+            marca: result[0].marcaProd,
+            quantidade: result[0].quantidadeProd,
+            lote: result[0].loteProd,
+            preco: result[0].precoProd,
+            dataValidade: result[0].dataValidade,
+            descricao: result[0].descricao,
+            request: {
+              tipo: "GET",
+              descricao: "Retorna um Produto",
+              url: "http://localhost:3000/produtos",
+            },
+          },
+        };
+        return res.status(200).send(response);
+      }
+    );
+  });
+});
+
 // Altera um Produto
 router.patch("/", (req, res, next) => {
   mysql.getConnection((error, conn) => {

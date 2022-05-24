@@ -1,3 +1,4 @@
+let idFunc;
 async function login() {
   event.preventDefault();
 
@@ -23,6 +24,7 @@ async function login() {
     }).then((response) => response.json());
 
     if (auth.loginAuth === true) {
+      idFunc = auth.idFuncionario;
       window.location.href = "TelaDeRelatorios.html";
     } else {
       alert("Nome de usuário ou senha foram digitado errado.");
