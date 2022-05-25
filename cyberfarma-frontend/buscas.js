@@ -30,10 +30,10 @@ async function buscarClientesTBL() {
       <td>
         <button class="btn btn-outline-danger" onclick="deleteRow(${
           item.idCliente
-        }, 1)">Excluir</button>
-        <button class="btn btn-warning" onclick="buscarCliente(${
+        }, 1)"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-outline-info" onclick="buscarCliente(${
           item.idCliente
-        })">Alterar</button>
+        })"><i class="fa fa-pencil"></i></button>
       </td> 
   </tr>`;
   });
@@ -77,10 +77,10 @@ async function buscarFuncionariosTBL() {
       <td>
         <button class="btn btn-outline-danger" onclick="deleteRow(${
           item.idFuncionario
-        }, 2)">Excluir</button>
-        <button class="btn btn-warning" onclick="buscarFuncionario(${
+        }, 2)"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-outline-info" onclick="buscarFuncionario(${
           item.idFuncionario
-        })">Alterar</button>
+        })"><i class="fa fa-pencil"></i></button>
       </td>
         
   </tr>`;
@@ -116,8 +116,8 @@ async function buscarFornecedoresTBL() {
       <td>${item.telefone}</td>
       <td>${item.descricao}</td>
       <td>
-        <button class="btn btn-outline-danger" onclick="deleteRow(${item.idFornecedor}, 3)">Excluir</button>
-        <button class="btn btn-warning" onclick="buscarFornecedor(${item.idFornecedor})">Alterar</button>
+        <button class="btn btn-outline-danger" onclick="deleteRow(${item.idFornecedor}, 3)"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-outline-info" onclick="buscarFornecedor(${item.idFornecedor})"><i class="fa fa-pencil"></i></button>
       </td>
   </tr>`;
   });
@@ -167,12 +167,10 @@ async function buscarProdutosTBL() {
       <td>
         <button class="btn btn-outline-danger" onclick="deleteRow(${
           item.idProduto
-        }, 4)">Excluir</button>
-      </td>
-      <td>
-        <button class="btn btn-warning" onclick="buscarProduto(${
+        }, 4)"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-outline-info" onclick="buscarProduto(${
           item.idProduto
-        })">Alterar</button>
+        })"><i class="fa fa-pencil"></i></button>
       </td> 
   </tr>`;
   });
@@ -568,6 +566,9 @@ function menuControl(index) {
         </table>
       `;
     document.getElementById("alterarInfos").innerHTML = output;
+    document.getElementById("alterarInfos").style.display = "none";
+    document.getElementsByClassName("panel-heading")[0].style.display = "block";
+    document.getElementById("panel-titleID").innerText = "Clientes";
   } else if (index === 2) {
     buscarFuncionariosTBL();
     let output = `
@@ -699,6 +700,9 @@ function menuControl(index) {
         </table>
       `;
     document.getElementById("alterarInfos").innerHTML = output;
+    document.getElementById("alterarInfos").style.display = "none";
+    document.getElementsByClassName("panel-heading")[0].style.display = "block";
+    document.getElementById("panel-titleID").innerText = "Funcionarios";
   } else if (index === 3) {
     buscarFornecedoresTBL();
     let output = `
@@ -792,6 +796,9 @@ function menuControl(index) {
         </table>
       `;
     document.getElementById("alterarInfos").innerHTML = output;
+    document.getElementById("alterarInfos").style.display = "none";
+    document.getElementsByClassName("panel-heading")[0].style.display = "block";
+    document.getElementById("panel-titleID").innerText = "Fornecedores";
   } else if (index === 4) {
     buscarProdutosTBL();
     let output = `
@@ -941,6 +948,9 @@ function menuControl(index) {
         </table>
       `;
     document.getElementById("alterarInfos").innerHTML = output;
+    document.getElementById("alterarInfos").style.display = "none";
+    document.getElementsByClassName("panel-heading")[0].style.display = "block";
+    document.getElementById("panel-titleID").innerText = "Produtos";
   } else {
   }
 }

@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -17,43 +17,50 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    <title>Document</title>
+    <title>Vendas | CyberFarma</title>
 </head>
 
-<body>
-    
-    <div class="fundo">
+<body class="fundo">
 
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light barraDeNavegacao">
+            
+                <a class="navbar-brand" href="#">
+                    CyberFarma
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Alterna navegação">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="TelaDeRelatorios.html">Consultas</a>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Cadastro
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="CadastroDeClientes.html">Clientes</a>
+                                <a class="dropdown-item" href="CadastroDeFornecedores.html">Fornecedores</a>
+                                <a class="dropdown-item" href="CadastroDeFuncionarios.html">Funcionarios</a>
+                                <a class="dropdown-item" href="CadastroDeProdutos.html">Produtos</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Vendas.html">Vendas</a>
+                        </li>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light barraDeNavegacao" style="margin-block-end: 5%;">
-            <a class="navbar-brand" href="#">Cyber Farma</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Alterna navegação">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="TelaDeRelatorios.html">Consultas</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Cadastro
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="CadastroDeClientes.html">Clientes</a>
-                            <a class="dropdown-item" href="CadastroDeFornecedores.html">Fornecedores</a>
-                            <a class="dropdown-item" href="CadastroDeFuncionarios.html">Funcionarios</a>
-                            <a class="dropdown-item" href="CadastroDeProdutos.html">Produtos</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Vendas.html">Vendas</a>
-                    </li>
-                </ul>
-            </div>
+                    </ul>
+                </div>
+            
         </nav>
+    </div>
+
+    <div class="fundo">
 
         <div class="telaformulario" style="margin-top: 60px ;">
 
@@ -100,12 +107,8 @@
                             <tr id="rowProdutos">
                                 
                             </tr>
-                            
                         </tbody>
-                    </table>
-
-                    
-                    
+                    </table>        
                 </div>
 
                 <div class="input-group mb-3">
@@ -123,7 +126,7 @@
                       <option value="Dinheiro">Dinheiro</option>
                       <option value="Pix">Pix</option>
                     </select>
-                  </div>
+                </div>
 
                 <div
                     style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 25px; border-top: solid;">
@@ -139,20 +142,13 @@
                         <button type="button" class="btn btn-outline-success" onclick="finalizarVenda()">Finalizar</button>
                         <button type="button" class="btn btn-outline-danger">Cancelar</button>
                     </div>
-                </div>
-                
+                </div>     
             </div>
-
-
-
-
         </div>
     </div>
-    <script>
-                        
-        
-    </script>
+
     <script src="vendas.js"></script>
 </body>
 
 </html>
+
