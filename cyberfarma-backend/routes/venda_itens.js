@@ -120,4 +120,42 @@ router.get("/:idVenda_itens", (req, res, next) =>{
     })
 })
 
+router.patch("/attprodutos", (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+      if (error) {
+        return res.status(500).send({ error: error });
+      }
+      conn.query(
+        `UPDATE produtos
+                  SET quantidadeProd =?      
+                  WHERE idProduto = ?;`,
+  
+        [
+          req.body.quantidade,
+          req.body.idProduto
+        ],
+        (error, result, field) => {
+          conn.release();
+          if (error) {
+            return res.status(500).send({ error: error });
+          }
+          const response = {
+            message: "Produto Atualizado com sucesso! ;)",
+            ProdutoAtualizado: {
+              idProduto: req.body.idProduto,
+              quantidade: req.body.quantidade,
+              request: {
+                tipo: "PATCH",
+                descricao: "Atualiza os dados do produto",
+                url: "http://localhost:3000/clientes/" + req.body.idProduto,
+              },
+            },
+          };
+          return res.status(202).send(response);
+        }
+      );
+    });
+  });
+  
+
 module.exports = router;

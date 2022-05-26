@@ -2,7 +2,16 @@ const express = require('express')
 const router = express.Router()
 const mysql = require('../mysql').pool //conecta com banco
 const bcrypt = require('bcrypt')
+
 //const jwt = require("jsonwebtoken");
+let idFuncionario;
+
+router.get('/idFuncionario', (req, res, next)=>{
+  const response ={
+    idFunc: idFuncionario
+  }
+  return res.status(200).send(response);
+})
 
 router.post('/funcionario', (req, res, next) => {
   mysql.getConnection((error, conn) => {
@@ -40,10 +49,12 @@ router.post('/funcionario', (req, res, next) => {
                   expiresIn: "8h",
                 }
               );*/
+              idFuncionario = results[0].idFuncionario;
 
               return res.status(200).send({
                 message: 'Autenticado com sucesso!',
                 loginAuth: true,
+                idFunc: results[0].idFuncionario,
                 // token: token,
               })
             }

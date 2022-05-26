@@ -1,6 +1,16 @@
 //Produto
 produtosVet = [];
 clienteVet = {};
+idFuncc = null;
+
+async function buscarIdFuncionario(){
+    const url = 'http://localhost:3000/login/idFuncionario';
+    let idFunc = await fetch(url).then((res)=>res.json());
+    console.log(idFunc.idFunc)
+    idFuncc = idFunc.idFunc;
+}
+buscarIdFuncionario();
+
 async function buscarProduto() {
     let codBarra = document.getElementsByName("codigoBarra")[0].value;
     console.log(codBarra)
@@ -62,7 +72,7 @@ async function buscarCliente(){
 async function finalizarVenda(){
     let idCliente = null;
 
-    let idFuncionario = null;
+    let idFuncionario = idFuncc;
 
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
@@ -82,7 +92,7 @@ async function finalizarVenda(){
     //venda BD
     let url = "http://localhost:3000/vendas";
     let url2 = "http://localhost:3000/venda_itens";
-  
+    let url3 = "http://localhost:3000/venda_itens/attprodutos"
     let vendaCriada;
 
     body = {
@@ -125,6 +135,20 @@ async function finalizarVenda(){
             .then((json) => console.log(json))
             .catch((err) => console.log(err));
 
+            body = {
+                quantidade: --produtosVet[i].quantidade,
+                idProduto: produtosVet[i].idProduto,
+            };
+            
+            await fetch(url3, {
+                method: "PATCH",
+                body: JSON.stringify(body),
+                headers: { "Content-type": "application/json; charset=UTF-8" },
+            })
+            .then((response) => response.json())
+            .then((json) => console.log(json))
+            .catch((err) => console.log(err));
+            
         //console.log(produtosVet)
     }
 
