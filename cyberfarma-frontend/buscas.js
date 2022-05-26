@@ -178,6 +178,40 @@ async function buscarProdutosTBL() {
   document.getElementById("headerId").innerHTML = output2;
 }
 
+//--------------------Vendas
+async function buscarVendasTBL() {
+  const url = "http://localhost:3000/vendas";
+  const vendas = await fetch(url).then((res) => res.json());
+  console.log(vendas);
+
+  let output = "";
+  let output2 = `
+  <tr>
+  <th scope="col">id</th>
+  <th scope="col">idCliente</th>
+  <th scope="col">idFuncionario</th>
+  <th scope="col">Data da Venda</th>
+  <th scope="col">Valor</th>
+  <th scope="col">Forma de Pagamento</th>
+</tr>
+`;
+
+  vendas.vendas.map((item) => {
+    let dataStr = item.data;
+
+    output += `<tr>
+      <th>${item.idVenda}</th>
+      <td>${item.idCliente}</td>
+      <td>${item.idFuncionario}</td>
+      <td>${dataStr.substring(0, 10)}</td>
+      <td>${item.valorVenda}</td>
+      <td>${item.formaPagamento}</td>
+  </tr>`;
+  });
+  document.getElementById("bodyinfos").innerHTML = output;
+  document.getElementById("headerId").innerHTML = output2;
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------DELETAR-------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
@@ -951,7 +985,10 @@ function menuControl(index) {
     document.getElementById("alterarInfos").style.display = "none";
     document.getElementsByClassName("panel-heading")[0].style.display = "block";
     document.getElementById("panel-titleID").innerText = "Produtos";
-  } else {
+  } else if (index===5){
+    buscarVendasTBL();
+    document.getElementsByClassName("panel-heading")[0].style.display = "block";
+    document.getElementById("panel-titleID").innerText = "Vendas";
   }
 }
 
