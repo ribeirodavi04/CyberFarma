@@ -188,8 +188,8 @@ async function buscarVendasTBL() {
   let output2 = `
   <tr>
   <th scope="col">id</th>
-  <th scope="col">idCliente</th>
-  <th scope="col">idFuncionario</th>
+  <th scope="col">Cliente</th>
+  <th scope="col">Funcionario</th>
   <th scope="col">Data da Venda</th>
   <th scope="col">Valor</th>
   <th scope="col">Forma de Pagamento</th>
@@ -197,12 +197,16 @@ async function buscarVendasTBL() {
 `;
 
   vendas.vendas.map((item) => {
-    let dataStr = item.data;
+    let dataStr = item.dataVenda;
+    let nomeCli = item.nomeCliente;
+    if(nomeCli === null){
+      nomeCli = "<i>Não Cadastrado</i>";
+    }
 
     output += `<tr>
       <th>${item.idVenda}</th>
-      <td>${item.idCliente}</td>
-      <td>${item.idFuncionario}</td>
+      <td>${nomeCli}</td>
+      <td>${item.nomeFuncionario}</td>
       <td>${dataStr.substring(0, 10)}</td>
       <td>${item.valorVenda}</td>
       <td>${item.formaPagamento}</td>
