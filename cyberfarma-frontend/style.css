@@ -1,24 +1,65 @@
 body{
     margin: 0px;
     font-family: Helvetica;
+    background-color: #e0e0e0;
 }
 
 .fundo{
-    width: 100%;
-    height: 190vmin;
+    /*height: 190vmin;*/
     background-color: #e0e0e0;
 
-    flex-direction: column;
+    /*flex-direction: column;
     align-items: center;
-    display: flex;
+    display: flex;*/
 
 }
 
 .barraDeNavegacao{
-    border-radius: 50px;
+    height: 70px;
+    border-radius: 15px;
+    margin-bottom:50px;
+}
+
+.tabelas{
+    max-width:1450px;
+    margin:auto;
+}
+
+.tbl{
+    background-color: #f8f9fa;
+    font-size: 14px;
     box-shadow:  20px 20px 60px #bebebe,
                 -20px -20px 60px #ffffff;
+    border-radius: 0 15px 15px 15px;
+    margin-bottom: 50px;
+    border: 1px solid #dee2e6;;
 }
+
+.tbl .panel-heading{
+    display: none;
+    padding: 25px;
+    background-color: #dde0e2;
+    border-radius: 0 15px 0 0;   
+}
+.table td, .table th{
+    max-width: 100px;
+}
+.btn-group.btn-group-toggle{
+    border-radius: 50%;
+}
+
+#alterarInfos{
+    display: none;
+    padding:15px;
+}
+
+
+
+
+
+
+
+
 
 .login{
     width: 3in;
@@ -35,10 +76,11 @@ body{
 }
 
 .telaformulario{
-    width: auto;
+    margin: auto;
+    width: 600px;
     height: auto;
-    border-radius: 50px;
-    background: #e0e0e0;
+    border-radius: 15px;
+    background: #f8f9fa;
     box-shadow:  20px 20px 60px #bebebe,
                 -20px -20px 60px #ffffff;
     
@@ -47,5 +89,6 @@ body{
     align-items: center;
     display: flex;
     padding: 5%;
+    margin-bottom: 50px;
 }
 

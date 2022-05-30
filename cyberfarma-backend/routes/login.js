@@ -1,33 +1,40 @@
-const express = require("express");
-const router = express.Router();
-const mysql = require("../mysql").pool; //conecta com banco
-const bcrypt = require("bcrypt");
-//const jwt = require("jsonwebtoken");
+const express = require('express')
+const router = express.Router()
+const mysql = require('../mysql').pool //conecta com banco
+const bcrypt = require('bcrypt')
 
-router.post("/funcionario", (req, res, next) => {
+//const jwt = require("jsonwebtoken");
+let idFuncionario;
+
+router.get('/idFuncionario', (req, res, next)=>{
+  const response ={
+    idFunc: idFuncionario
+  }
+  return res.status(200).send(response);
+})
+
+router.post('/funcionario', (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
-      return res.status(500).send({ error: error });
+      return res.status(500).send({ error: error })
     }
     conn.query(
-      "SELECT * FROM funcionarios WHERE nomeDeUsuarioFunc=?;",
+      'SELECT * FROM funcionarios WHERE nomeDeUsuarioFunc=?;',
       [req.body.nomeUsuario],
       (error, results, fields) => {
-        conn.release();
+        conn.release()
         if (error) {
-          return res.status(500).send({ error: error });
+          return res.status(500).send({ error: error })
         }
         if (results.length < 1) {
-          return res.status(401).send({ message: "Falha na autenticação!" });
+          return res.status(401).send({ message: 'Falha na autenticação!' })
         }
         bcrypt.compare(
           req.body.senha,
           results[0].senhaFunc,
           (error, result) => {
             if (error) {
-              return res
-                .status(401)
-                .send({ message: "Falha na autenticação!" });
+              return res.status(401).send({ message: 'Falha na autenticação!' })
             }
 
             if (result) {
@@ -42,19 +49,52 @@ router.post("/funcionario", (req, res, next) => {
                   expiresIn: "8h",
                 }
               );*/
+              idFuncionario = results[0].idFuncionario;
 
               return res.status(200).send({
-                message: "Autenticado com sucesso!",
+                message: 'Autenticado com sucesso!',
+                loginAuth: true,
+                idFunc: results[0].idFuncionario,
                 // token: token,
-              });
+              })
             }
 
-            return res.status(401).send({ message: "Falha na autenticação!" });
-          }
-        );
-      }
-    );
-  });
-});
+            return res.status(401).send({ message: 'Falha na autenticação!' })
+          },
+        )
+      },
+    )
+  })
+})
 
-module.exports = router;
+router.post('/administrador', (req, res, next) => {
+  mysql.getConnection((error, conn) => {
+    if (error) {
+      return res.status(500).send({ error: error })
+    }
+    conn.query(
+      'SELECT * FROM gerente WHERE nomeDeUsuarioGerente=?;',
+      [req.body.nomeUsuario],
+      (error, results, fields) => {
+        conn.release()
+        if (error) {
+          return res.status(500).send({ error: error })
+        }
+        if (results.length < 1) {
+          return res.status(401).send({ message: 'Falha na autenticação!' })
+        }
+        if(req.body.senha === results[0].senhaGerente){
+          return res.status(200).send({
+            message: 'Autenticado com sucesso!',
+            loginAuth: true,
+            idFunc: results[0].idFuncionario,
+          })
+        }
+        return res.status(401).send({ message: 'Falha na autenticação!' })
+        
+      },
+    )
+  })
+})
+
+module.exports = router

@@ -3,7 +3,7 @@ const router = express.Router()
 const mysql = require("../mysql").pool
 
 // Retorna todos as vendas
-router.get("/", (req, res, next) =>{
+/*router.get("/", (req, res, next) =>{
     mysql.getConnection ((error, conn) => {
         if (error) {
             return res.status(500).send({error:error})
@@ -37,7 +37,47 @@ router.get("/", (req, res, next) =>{
         })
         
     })
+})*/
+
+// Retorna todos as vendas
+router.get("/", (req, res, next) =>{
+    mysql.getConnection ((error, conn) => {
+        if (error) {
+            return res.status(500).send({error:error})
+        }
+        conn.query("SELECT v.idVenda, c.nomeCliente, f.nomeFunc, v.dataVenda, v.valorTotalVenda, v.formaPagamentoVenda FROM vendas v LEFT JOIN clientes c ON v.idCliente = c.idCliente LEFT JOIN funcionarios f ON v.idFuncionario = f.idFuncionario; ", 
+        (error, result, fields) => {
+            conn.release()
+            if (error){
+                return res.status(500).send({error:error})
+            }
+            const response = {
+                quantidade: result.length,
+                vendas: result.map((forn) => {
+                    return{
+                        idVenda: forn.idVenda,
+                        nomeCliente: forn.nomeCliente,
+                        nomeFuncionario: forn.nomeFunc,
+                        dataVenda: forn.dataVenda,
+                        valorVenda: forn.valorTotalVenda,
+                        formaPagamento: forn.formaPagamentoVenda,
+                        request: {
+                            tipo: "GET",
+                            descricao: "Retorna todos as Vendas",
+                            url: "http://localhost:3000/vendas/"
+                        }
+                    }
+                   
+                })
+            }
+            return res.status(202).send(response)
+
+        })
+        
+    })
 })
+
+
 
 //Insere uma venda
 router.post("/", (req, res, next) =>{
@@ -61,7 +101,7 @@ router.post("/", (req, res, next) =>{
                 const response = {
                     message: "Venda inserida com sucesso! :)",
                     vendaCriada: {
-                        idVenda: result.idVenda,
+                        idVenda: result.insertId,
                         idCliente: req.body.idCliente,
                         idFuncionario: req.body.idFuncionario,
                         data: req.body.data,

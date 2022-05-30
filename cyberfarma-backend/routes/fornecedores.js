@@ -187,7 +187,7 @@ router.delete("/", (req, res, next) => {
           request: {
             tipo: "POST",
             descricao: "Deleta um Fornecedor.",
-            url: "http://localhost:300/fornecedores",
+            url: "http://localhost:3000/fornecedores",
             body: {
               nome: "String",
               cnpj: "String",

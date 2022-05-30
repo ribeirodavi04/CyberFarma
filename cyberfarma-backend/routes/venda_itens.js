@@ -46,7 +46,7 @@ router.post("/", (req, res, next) =>{
             return res.status(500).send({error:error})
         }
         conn.query(
-            "INSERT INTO venda_Itens (idProduto, idVenda, quantidadeVI, precoVI, codigoDeBarraVI ) VALUES (?, ?, ?, ?, ?);",
+            "INSERT INTO venda_itens (idProduto, idVenda, quantidadeVI, precoVI, codigoDeBarraVI ) VALUES (?, ?, ?, ?, ?);",
             [
                 req.body.idProduto,
                 req.body.idVenda,
@@ -119,5 +119,42 @@ router.get("/:idVenda_itens", (req, res, next) =>{
         )
     })
 })
+
+router.patch("/attprodutos", (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+      if (error) {
+        return res.status(500).send({ error: error });
+      }
+      conn.query(
+        `UPDATE produtos
+                  SET quantidadeProd =?      
+                  WHERE idProduto = ?;`,
+  
+        [
+          req.body.quantidade,
+          req.body.idProduto
+        ],
+        (error, result, field) => {
+          conn.release();
+          if (error) {
+            return res.status(500).send({ error: error });
+          }
+          const response = {
+            message: "Produto Atualizado com sucesso! ;)",
+            ProdutoAtualizado: {
+              idProduto: req.body.idProduto,
+              quantidade: req.body.quantidade,
+              request: {
+                tipo: "PATCH",
+                descricao: "Atualiza os dados do produto",
+              },
+            },
+          };
+          return res.status(202).send(response);
+        }
+      );
+    });
+  });
+  
 
 module.exports = router;
