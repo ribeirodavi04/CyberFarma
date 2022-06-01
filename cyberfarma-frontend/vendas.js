@@ -153,12 +153,14 @@ async function finalizarVenda(){
             .then((json) => console.log(json))
             .catch((err) => console.log(err));
             
-        //console.log(produtosVet)
+        //console.log(produtosVet)    
     }
 
     
     document.getElementsByName("cpfCliente")[0].value = "";
+    document.getElementsByName("codigoBarra")[0].value = "";
     document.getElementById("cliente").style.display = "none";
+    alert("Venda realizada com sucesso!")
     produtosVet = [];
     attTabela();
     attPrecoTotal();

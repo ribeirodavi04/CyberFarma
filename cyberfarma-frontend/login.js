@@ -30,7 +30,7 @@ async function login() {
       console.log(auth)
       idFunc = auth.idFunc;
       localStorage.setItem('idFuncionario', idFunc);
-      window.location.href = "TelaDeRelatorios.html";
+      window.location.href = "TelaRelatoriosFunc.html";
     } else {
       alert("Nome de usuário ou senha foram digitado errado.");
     }
