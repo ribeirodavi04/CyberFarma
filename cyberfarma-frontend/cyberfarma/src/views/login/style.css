@@ -1,47 +1,40 @@
-html,body {
-	height: 100%;
+.login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }
-
-body.my-login-page {
-    background-color: #e0e0e0;
-    font-size: 14px;
+.card-wrapper{
+    max-width: 400px;
 }
-
-.my-login-page .brand{
+.brand{
     overflow: hidden;
     margin: 40px auto;
     position: relative;
     z-index: 1;
     text-align: center;
 }
-
-.my-login-page .card-wrapper{
-    width: 400px;
-}
-
-.my-login-page .card{
+.card{
     border-color: transparent;
     box-shadow: 0 4px 8px rgba(0, 0, 0, .05);
     background-color: #f8f9fa;
     border-radius: 15px;
 }
-
-.my-login-page .card.fat{
+.card.fat{
     padding: 10px;
 }
-
-.my-login-page .card .card-title{
+.card-title{
     margin-bottom: 30px;
 }
-
-.my-login-page .form-control{
+.form-control{
     border-width: 2.3px;
+    margin-bottom: 20px;
 }
-
-.my-login-page .form-control label {
+.lbl{
     width: 100%;
 }
-
-.my-login-page .btn.btn-block{
+.btn{
     padding: 12px 10px;
+    width: 100%;
+    margin-top: 20px;
 }

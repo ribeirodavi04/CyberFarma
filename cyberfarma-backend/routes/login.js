@@ -3,15 +3,8 @@ const router = express.Router()
 const mysql = require('../mysql').pool //conecta com banco
 const bcrypt = require('bcrypt')
 
-//const jwt = require("jsonwebtoken");
-let idFuncionario;
+const jwt = require("jsonwebtoken");
 
-router.get('/idFuncionario', (req, res, next)=>{
-  const response ={
-    idFunc: idFuncionario
-  }
-  return res.status(200).send(response);
-})
 
 router.post('/funcionario', (req, res, next) => {
   mysql.getConnection((error, conn) => {
@@ -38,7 +31,7 @@ router.post('/funcionario', (req, res, next) => {
             }
 
             if (result) {
-              /* const token = jwt.sign(
+              const token = jwt.sign(
                 {
                   idFuncionario: results[0].idFuncionario,
                   nome: results[0].nomeFunc,
@@ -48,14 +41,16 @@ router.post('/funcionario', (req, res, next) => {
                 {
                   expiresIn: "8h",
                 }
-              );*/
+              );
               idFuncionario = results[0].idFuncionario;
 
               return res.status(200).send({
                 message: 'Autenticado com sucesso!',
-                loginAuth: true,
-                idFunc: results[0].idFuncionario,
-                // token: token,
+                user:{
+                  idFuncionario: results[0].idFuncionario,
+                  nomeUsuario: results[0].nomeDeUsuarioFunc,
+                },
+                token: token,
               })
             }
 
@@ -84,10 +79,24 @@ router.post('/administrador', (req, res, next) => {
           return res.status(401).send({ message: 'Falha na autenticação!' })
         }
         if(req.body.senha === results[0].senhaGerente){
+          const token = jwt.sign(
+            {
+              idAdm: results[0].idGerente,
+              nome: results[0].nomeGerente,
+              nomeUsuario: results[0].nomeDeUsuarioGerente,
+            },
+            `${process.env.JWT_KEY}`,
+            {
+              expiresIn: "8h",
+            }
+          );
           return res.status(200).send({
             message: 'Autenticado com sucesso!',
-            loginAuth: true,
-            idFunc: results[0].idFuncionario,
+            user: {
+              idAdm: results[0].idGerente,
+              nomeUsuario: results[0].nomeDeUsuarioGerente,
+            },
+            token: token,
           })
         }
         return res.status(401).send({ message: 'Falha na autenticação!' })
