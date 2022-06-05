@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("../mysql").pool;
+const auth = require('../middleware/auth');
 
 //Retorna todos Clientes
-router.get("/", (req, res, next) => {
+router.get("/", auth,(req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -38,7 +39,7 @@ router.get("/", (req, res, next) => {
 });
 
 //Insere um cliente
-router.post("/", (req, res, next) => {
+router.post("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });

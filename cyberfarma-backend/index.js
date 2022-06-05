@@ -10,12 +10,16 @@ app.use(bodyParser.urlencoded({ extended: false })); //apenas dados simples
 app.use(bodyParser.json()); //só aceita json de etrada no body
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Origin', '*');
   res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+      'Access-Control-Allow-Header',
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
-  res.header("Access-Control-Allow-Methods", "*")
+
+  if (req.method === 'OPTIONS') {
+      res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+      return res.status(200).send({});
+  }
   next();
 });
 
@@ -51,6 +55,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(3000, () => console.log("Server rodando na porta 3000!"));
+app.listen(4000, () => console.log("Server rodando na porta 4000!"));
 
 // Pão
