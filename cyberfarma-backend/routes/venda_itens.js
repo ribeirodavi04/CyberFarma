@@ -1,9 +1,10 @@
 const express = require("express")
 const router = express.Router()
 const mysql = require("../mysql").pool
+const auth = require('../middleware/auth')
 
 // Retorna todos as vendas_itens
-router.get("/", (req, res, next) =>{
+router.get("/", auth,(req, res, next) =>{
     mysql.getConnection ((error, conn) => {
         if (error) {
             return res.status(500).send({error:error})
@@ -40,7 +41,7 @@ router.get("/", (req, res, next) =>{
 })
 
 //Insere uma venda
-router.post("/", (req, res, next) =>{
+router.post("/", auth,(req, res, next) =>{
     mysql.getConnection((error, conn) =>{
         if (error) {
             return res.status(500).send({error:error})
@@ -120,41 +121,6 @@ router.get("/:idVenda_itens", (req, res, next) =>{
     })
 })
 
-router.patch("/attprodutos", (req, res, next) => {
-    mysql.getConnection((error, conn) => {
-      if (error) {
-        return res.status(500).send({ error: error });
-      }
-      conn.query(
-        `UPDATE produtos
-                  SET quantidadeProd =?      
-                  WHERE idProduto = ?;`,
-  
-        [
-          req.body.quantidade,
-          req.body.idProduto
-        ],
-        (error, result, field) => {
-          conn.release();
-          if (error) {
-            return res.status(500).send({ error: error });
-          }
-          const response = {
-            message: "Produto Atualizado com sucesso! ;)",
-            ProdutoAtualizado: {
-              idProduto: req.body.idProduto,
-              quantidade: req.body.quantidade,
-              request: {
-                tipo: "PATCH",
-                descricao: "Atualiza os dados do produto",
-              },
-            },
-          };
-          return res.status(202).send(response);
-        }
-      );
-    });
-  });
   
 
 module.exports = router;

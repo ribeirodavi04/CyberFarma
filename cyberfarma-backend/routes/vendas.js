@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const mysql = require("../mysql").pool
+const auth = require('../middleware/auth')
 
 // Retorna todos as vendas
 /*router.get("/", (req, res, next) =>{
@@ -40,7 +41,7 @@ const mysql = require("../mysql").pool
 })*/
 
 // Retorna todos as vendas
-router.get("/", (req, res, next) =>{
+router.get("/", auth,(req, res, next) =>{
     mysql.getConnection ((error, conn) => {
         if (error) {
             return res.status(500).send({error:error})
@@ -80,7 +81,7 @@ router.get("/", (req, res, next) =>{
 
 
 //Insere uma venda
-router.post("/", (req, res, next) =>{
+router.post("/", auth, (req, res, next) =>{
     mysql.getConnection((error, conn) =>{
         if (error) {
             return res.status(500).send({error:error})
@@ -121,7 +122,7 @@ router.post("/", (req, res, next) =>{
 })
 
 //Retorna os dados de uma venda em especifico.
-router.get("/:idVenda", (req, res, next) =>{
+router.get("/:idVenda", auth, (req, res, next) =>{
     mysql.getConnection((error, conn) =>{
         if (error) {
             return res.status(500).send({error:error})

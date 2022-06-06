@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         const loggedUser = response.data.user;
         const token = response.data.token;
 
-        //api.defaults.headers.Authorization = `Bearer ${token}`
+        api.defaults.headers.Authorization = `Bearer ${token}`
 
         localStorage.setItem("user", JSON.stringify(loggedUser));
         localStorage.setItem("token", token);
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
         const loggedUser = response.data.user;
         const token = response.data.token;
         
-        //api.defaults.headers.Authorization = `Bearer ${token}`
+        api.defaults.headers.Authorization = `Bearer ${token}`
 
         localStorage.setItem("user", JSON.stringify(loggedUser));
         localStorage.setItem("token", token);
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
         console.log("logout");
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        //api.defaults.headers.Authorization = null;
+        api.defaults.headers.Authorization = null;
         setUser(null);
         navigate("/");
     }

@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("../mysql").pool;
+const auth = require('../middleware/auth');
 
 //RETORNA TODOS FORNECEDORES
-router.get("/", (req, res, next) => {
+router.get("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -37,7 +38,7 @@ router.get("/", (req, res, next) => {
 });
 
 //INSERE UM FORNECEDOR
-router.post("/", (req, res, next) => {
+router.post("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -79,7 +80,7 @@ router.post("/", (req, res, next) => {
 });
 
 //RETORNA OS DADOS DE UM FORNECEEDOR ESPECIFICO
-router.get("/:idFornecedor", (req, res, next) => {
+router.get("/:idFornecedor", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -119,7 +120,7 @@ router.get("/:idFornecedor", (req, res, next) => {
 });
 
 //ALTERA UM FORNECEDOR
-router.patch("/", (req, res, next) => {
+router.patch("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -169,7 +170,7 @@ router.patch("/", (req, res, next) => {
 });
 
 //DELETA UM FORNECEDOR
-router.delete("/", (req, res, next) => {
+router.delete("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });

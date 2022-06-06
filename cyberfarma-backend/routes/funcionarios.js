@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const mysql = require("../mysql").pool; //conecta com banco
 const bcrypt = require("bcrypt"); //criptografa senha
+const auth = require('../middleware/auth');
 
 //RETORNA TODOS FUNCIONARIOS
-router.get("/", (req, res, next) => {
+router.get("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -41,7 +42,7 @@ router.get("/", (req, res, next) => {
 });
 
 //CADASTRO DE FUNCIONARIOS
-router.post("/", (req, res, next) => {
+router.post("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -109,7 +110,7 @@ router.post("/", (req, res, next) => {
 });
 
 //RETORNA UM FUNCIONARIO EM ESPECIFICO
-router.get("/:idFuncionario", (req, res, next) => {
+router.get("/:idFuncionario", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -151,7 +152,7 @@ router.get("/:idFuncionario", (req, res, next) => {
 });
 
 //ALTERA UM FUNCIONARIO
-router.patch("/", (req, res, next) => {
+router.patch("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -213,7 +214,7 @@ router.patch("/", (req, res, next) => {
 });
 
 //DELETA UM FUNCIONARIO
-router.delete("/", (req, res, next) => {
+router.delete("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });

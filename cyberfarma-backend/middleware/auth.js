@@ -9,6 +9,6 @@ module.exports = async(req, res, next) => {
         req.user = decode;
         return next();
     }catch (error){
-        return res.status(401).send({message: "Falha na aaautenticação"});
+        return res.status(401).send({message: "Falha na autenticação"});
     }
 }

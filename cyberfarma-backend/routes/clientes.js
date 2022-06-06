@@ -83,7 +83,7 @@ router.post("/", auth, (req, res, next) => {
 });
 
 //Retorn os dados de um cliente em especifico.
-router.get("/:idCliente", (req, res, next) => {
+router.get("/:idCliente", auth,(req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -124,7 +124,7 @@ router.get("/:idCliente", (req, res, next) => {
 });
 
 //Retorn os dados de um cliente em especifico.
-router.get("/cpf/:cpfCliente", (req, res, next) => {
+router.get("/cpf/:cpfCliente", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -166,7 +166,7 @@ router.get("/cpf/:cpfCliente", (req, res, next) => {
 
 
 //Altera um Cliente
-router.patch("/", (req, res, next) => {
+router.patch("/", auth,(req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -219,7 +219,7 @@ router.patch("/", (req, res, next) => {
 });
 
 // Deleta um Cliente
-router.delete("/", (req, res, next) => {
+router.delete("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });

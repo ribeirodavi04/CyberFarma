@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("../mysql").pool;
+const auth = require('../middleware/auth');
 
 //Retorna todos os Produtos
-router.get("/", (req, res, next) => {
+router.get("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -42,7 +43,7 @@ router.get("/", (req, res, next) => {
 });
 
 //Insere um Produto
-router.post("/", (req, res, next) => {
+router.post("/", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -93,7 +94,7 @@ router.post("/", (req, res, next) => {
 });
 
 //Retorna os dados de um produto em especifico
-router.get("/:idProduto", (req, res, next) => {
+router.get("/:idProduto", auth, (req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -138,7 +139,7 @@ router.get("/:idProduto", (req, res, next) => {
 });
 
 
-router.get("/codigoDeBarras/:codBarra", (req, res, next) => {
+router.get("/codigoDeBarras/:codBarra", auth,(req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -183,7 +184,7 @@ router.get("/codigoDeBarras/:codBarra", (req, res, next) => {
 });
 
 // Altera um Produto
-router.patch("/", (req, res, next) => {
+router.patch("/", auth,(req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
@@ -247,7 +248,7 @@ router.patch("/", (req, res, next) => {
 });
 
 // Deleta um produto
-router.delete("/", (req, res, next) => {
+router.delete("/", auth,(req, res, next) => {
   mysql.getConnection((error, conn) => {
     if (error) {
       return res.status(500).send({ error: error });
