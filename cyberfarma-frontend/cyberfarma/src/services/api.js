@@ -12,3 +12,7 @@ export const createSession = async (nomeUsuario, senha) => {
 export const createSessionADM = async (nomeUsuario, senha) => {
     return api.post("/login/administrador", {nomeUsuario, senha});
 }
+
+export const getClientes = async (token) => {
+    return api.get("/clientes", { headers: {"Authorization" : `Bearer ${token}`} });
+}

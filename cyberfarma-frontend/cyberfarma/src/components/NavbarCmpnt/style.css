@@ -1,0 +1,24 @@
+.navbar{
+    background-color: rgb(247, 247, 247);
+    height: 80px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.123);
+}
+
+.navbar-nav a{
+    display: block;
+    padding: .5rem 1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    color: rgba(0,0,0,.55);
+    text-decoration: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+.navbar-nav a:hover{
+    color: #000;
+}
+
+.nav-item .btn-logout{
+    margin-top: 5px;
+    padding: 5px 15px ;
+}
