@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './style.css';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
 import ContentCmpnt from '../../components/ContentCmpnt';
-import TablesCmpnt from '../../components/TablesCmpnt';
-
+import TableClientes from '../../components/Tables/TableClientes';
+import TableFuncionarios from '../../components/Tables/TableFuncionarios';
 
 export default function Home(){
     
@@ -47,7 +47,7 @@ export default function Home(){
                     </Row>
                     <Row>
                         <Col>
-                            <TablesCmpnt />
+                            <TableFuncionarios />
                         </Col>
                     </Row>
                 </Container>

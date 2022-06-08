@@ -1,0 +1,12 @@
+.col-btn-group{
+    display: flex;
+}
+
+.tblClientes-btn{
+    padding: 5px;
+    margin: 5px;
+    color: white;
+}
+.tblClientes-btn:hover{
+    color: white;
+}

@@ -4,7 +4,7 @@ import Home from './views/Home';
 import Vendas from './views/Vendas';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './contexts/auth';
-import { ClienteContextProvider } from './contexts/clientes';
+import { TablesContextProvider } from './contexts/tables';
 
 
 export default function AppRoutes(){
@@ -16,7 +16,7 @@ export default function AppRoutes(){
         }
     
         if(!authenticated){
-          return <Navigate to="/login"/>;
+          return <Navigate to="/"/>;
         }
         return children;
     }
@@ -25,12 +25,12 @@ export default function AppRoutes(){
         <BrowserRouter>
             <AuthProvider>
                     <Routes>
-                        <Route exact path="/login" element={ <Login/> }/>
+                        <Route exact path="/" element={ <Login/> }/>
                         <Route exact path="/home" element={ 
                             <Private>
-                                <ClienteContextProvider>
+                                <TablesContextProvider>
                                     <Home/>
-                                </ClienteContextProvider>
+                                </TablesContextProvider>
                             </Private> 
                         }/>
                         <Route exact path="/vendas" element={ <Private><Vendas/></Private> }/>
