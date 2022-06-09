@@ -1,6 +1,25 @@
-.nav-tabs .nav-link{
-    color: gray;
+.nav-tabs .nav-link {
+  color: gray;
 }
-.header-title{
-    margin-bottom: 50px;
+.header-title {
+  margin-bottom: 50px;
+}
+.btn-search {
+  width: 100px;
+  padding: 5px;
+  margin-top: -20px;
+  margin-left: 5px;
+}
+.lbl-search {
+  width: 200px;
+  margin-top: -10px;
+  text-align: end;
+  margin-right: 5px;
+}
+.fg-search {
+  align-items: center;
+  justify-content: center;
+}
+.input-search {
+  width: 250px;
 }
