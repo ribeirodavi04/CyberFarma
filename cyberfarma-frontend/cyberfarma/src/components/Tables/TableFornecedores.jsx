@@ -5,14 +5,10 @@ import { Button, Table, } from 'react-bootstrap';
 import { FontAwesomeIcon }  from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export default function TableClientes(){
+export default function TableFornecedores(){
 
-    const { clientes } = useContext(TablesContext);
+    const { fornecedores } = useContext(TablesContext);
     let i = 0;
-
-    const teste = (i)=>{
-        alert(i);
-    }
 
     return( 
         <div>   
@@ -21,30 +17,28 @@ export default function TableClientes(){
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
-                        <th>CPF</th>
+                        <th>Razão Social</th>
+                        <th>CNPJ</th>
                         <th>Telefone</th>
-                        <th>Endereço</th>
-                        <th>Data de Nascimento</th>
-                        <th>Deficiência</th>
+                        <th>Descrição</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                         {   
-                            clientes && clientes.map((item, key)=>{
+                            fornecedores && fornecedores.map((item)=>{
                                 i++;
                                 return(
-                                    <tr key={item.idCliente}>
+                                    <tr key={item.idFornecedor}>
                                         <td>{i}</td>
                                         <td>{item.nome}</td>
-                                        <td>{item.cpf}</td>
+                                        <td>{item.razaoSocial}</td>
+                                        <td>{item.cnpj}</td>
                                         <td>{item.telefone}</td>
-                                        <td>{item.endereco}</td>
-                                        <td>{item.dataNasc.substring(0, 10)}</td>
-                                        <td>{item.deficiencia}</td>
+                                        <td>{item.descricao}</td>
                                         <td className="col-btn-group">
-                                            <Button size="sm" variant="warning" className="tblClientes-btn" onClick={()=>teste(item.idCliente)}><FontAwesomeIcon icon={faPencil} /></Button>
-                                            <Button size="sm" variant="danger" className="tblClientes-btn" onClick={()=>teste(item.idCliente)}><FontAwesomeIcon icon={faTrash} /></Button>
+                                            <Button size="sm" variant="warning" className="tblClientes-btn"><FontAwesomeIcon icon={faPencil} /></Button>
+                                            <Button size="sm" variant="danger" className="tblClientes-btn"><FontAwesomeIcon icon={faTrash} /></Button>
                                         </td>
                                     </tr>
                                 )

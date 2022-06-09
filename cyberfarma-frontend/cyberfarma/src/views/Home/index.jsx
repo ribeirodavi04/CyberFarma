@@ -4,26 +4,29 @@ import { Col, Container, Nav, Row } from 'react-bootstrap';
 import ContentCmpnt from '../../components/ContentCmpnt';
 import TableClientes from '../../components/Tables/TableClientes';
 import TableFuncionarios from '../../components/Tables/TableFuncionarios';
+import TableFornecedores from '../../components/Tables/TableFornecedores';
+import TableProdutos from '../../components/Tables/TableProdutos';
+import TableVendas from '../../components/Tables/TableVendas';
 
 export default function Home(){
     
-    const [table, setTable] = useState("Clientes");
+    const [table, setTable] = useState(<TableClientes />);
 
     const handleTables = (i) =>{
         if(i===1){
-            setTable("Clientes");
+            setTable(<TableClientes />);
         }else
         if(i===2){
-            setTable("Funcionários");
+            setTable(<TableFuncionarios />);
         }else
         if(i===3){
-            setTable("Fornecedores");
+            setTable(<TableFornecedores />);
         }else
         if(i===4){
-            setTable("Produtos");
+            setTable(<TableProdutos />);
         }else
         if(i===5){
-            setTable("Vendas");
+            setTable(<TableVendas />);
         }
 
     }
@@ -35,7 +38,12 @@ export default function Home(){
             <ContentCmpnt>
                 <Container>
                     <Row>
+                        <h1 className="header-title">Informações do sistema</h1>
+                    </Row>
+                    <Row>
                         <Col>
+                          
+
                             <Nav variant="tabs" defaultActiveKey="clientes">
                                 <Nav.Item><Nav.Link eventKey="clientes" onClick={ () => handleTables(1) }>Clientes</Nav.Link></Nav.Item>
                                 <Nav.Item><Nav.Link eventKey="funcionarios" onClick={ () => handleTables(2) }>Funcionários</Nav.Link></Nav.Item>
@@ -47,7 +55,7 @@ export default function Home(){
                     </Row>
                     <Row>
                         <Col>
-                            <TableFuncionarios />
+                            {table}
                         </Col>
                     </Row>
                 </Container>
