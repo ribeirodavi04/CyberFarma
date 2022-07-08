@@ -27,7 +27,7 @@ export default function AppRoutes() {
           <Route exact path="/" element={<Login />} />
           <Route
             exact
-            path="/home"
+            path="/home/*"
             element={
               <Private>
                 <TablesContextProvider>

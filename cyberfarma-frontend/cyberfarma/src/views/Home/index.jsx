@@ -10,41 +10,15 @@ import {
   Pagination,
 } from "react-bootstrap";
 import ContentCmpnt from "../../components/ContentCmpnt";
-import TableClientes from "../../components/Tables/TableClientes";
-import TableFuncionarios from "../../components/Tables/TableFuncionarios";
-import TableFornecedores from "../../components/Tables/TableFornecedores";
-import TableProdutos from "../../components/Tables/TableProdutos";
-import TableVendas from "../../components/Tables/TableVendas";
+import { Link } from "react-router-dom";
+import TableRoutes from "./TablesRoutes";
 
 export default function Home() {
-  const [table, setTable] = useState(<TableClientes />);
   const [searchInfo, setSearchInfo] = useState("Cliente");
   const [searchPlaceholder, setsearchPlaceholder] = useState(
     "Digite o CPF do Cliente"
   );
   const [activeNumber, setActiveNumber] = useState(1);
-
-  const handleTables = (i) => {
-    if (i === 1) {
-      setTable(<TableClientes />);
-      setSearchInfo("Cliente");
-      setsearchPlaceholder("Digite o CPF do Cliente");
-    } else if (i === 2) {
-      setTable(<TableFuncionarios />);
-      setSearchInfo("Funcionário");
-      setsearchPlaceholder("Digite o CPF do Funcionário");
-    } else if (i === 3) {
-      setTable(<TableFornecedores />);
-      setSearchInfo("Fornecedor");
-      setsearchPlaceholder("Digite o CNPJ do Fornecedor");
-    } else if (i === 4) {
-      setTable(<TableProdutos />);
-      setSearchInfo("Produto");
-      setsearchPlaceholder("Digite o código de barras do Produto");
-    } else if (i === 5) {
-      setTable(<TableVendas />);
-    }
-  };
 
   const handleActiveNumber = (i) => {
     if (i === "n") {
@@ -77,34 +51,28 @@ export default function Home() {
             <Col md={6}>
               <Nav variant="tabs" defaultActiveKey="clientes">
                 <Nav.Item>
-                  <Nav.Link eventKey="clientes" onClick={() => handleTables(1)}>
-                    Clientes
+                  <Nav.Link>
+                    <Link to="/home/clientes">Clientes</Link>
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link
-                    eventKey="funcionarios"
-                    onClick={() => handleTables(2)}
-                  >
-                    Funcionários
+                  <Nav.Link>
+                    <Link to="/home/funcionarios">Funcionários</Link>
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link
-                    eventKey="fornecedores"
-                    onClick={() => handleTables(3)}
-                  >
-                    Fornecedores
+                  <Nav.Link>
+                    <Link to="/home/fornecedores">Fornecedores</Link>
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey="produtos" onClick={() => handleTables(4)}>
-                    Produtos
+                  <Nav.Link>
+                    <Link to="/home/produtos">Produtos</Link>
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey="vendas" onClick={() => handleTables(5)}>
-                    Vendas
+                  <Nav.Link>
+                    <Link to="/home/vendas">Vendas</Link>
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
@@ -133,7 +101,9 @@ export default function Home() {
           </Row>
 
           <Row>
-            <Col>{table}</Col>
+            <Col>
+              <TableRoutes />
+            </Col>
           </Row>
 
           <Row>

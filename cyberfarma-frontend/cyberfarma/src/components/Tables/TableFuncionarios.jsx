@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./style.css";
 import { TablesContext } from "../../contexts/tables";
 import { Button, Table } from "react-bootstrap";
@@ -6,8 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export default function TableFuncionarios() {
-  const { funcionarios } = useContext(TablesContext);
+  const { funcionarios, buscarFuncionarios } = useContext(TablesContext);
   let i = 0;
+
+  useEffect(() => {
+    buscarFuncionarios();
+  }, []);
 
   return (
     <div>

@@ -4,14 +4,19 @@ import { TablesContext } from "../../contexts/tables";
 import { Button, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 
 export default function TableClientes() {
-  const { clientes } = useContext(TablesContext);
+  const { clientes, buscarClientes } = useContext(TablesContext);
   let i = 0;
 
   const teste = (i) => {
     alert(i);
   };
+
+  useEffect(() => {
+    buscarClientes();
+  }, []);
 
   return (
     <div>

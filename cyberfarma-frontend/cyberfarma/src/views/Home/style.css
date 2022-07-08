@@ -23,3 +23,11 @@
 .input-search {
   width: 250px;
 }
+
+a {
+  text-decoration: none;
+  color: gray;
+}
+a:hover {
+  color: black;
+}
