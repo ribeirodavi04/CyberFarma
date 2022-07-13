@@ -1,22 +1,41 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import "./style.css";
-import { TablesContext } from "../../contexts/tables";
-import { Button, Table } from "react-bootstrap";
+import { Button, Table, Pagination } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
+import { getClientes } from "../../services/api.js";
 
 export default function TableClientes() {
-  const { clientes, buscarClientes } = useContext(TablesContext);
+  const [clientes, setClientes] = useState();
   let i = 0;
 
   const teste = (i) => {
     alert(i);
   };
 
+  //paginação
+  const [total, setTotal] = useState(0); //quantidade total de itens vindo do backend
+  const [limit, setLimit] = useState(10); //limite de itens por pagina
+  const [pages, setPages] = useState([]); //paginas
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
-    buscarClientes();
-  }, []);
+    async function loadClientes() {
+      const response = await getClientes();
+      setTotal(response.data.quantidade);
+      const totalPages = Math.ceil(total / limit);
+
+      const arrayPages = [];
+      for (let i = 1; i <= totalPages; i++) {
+        arrayPages.push(i);
+      }
+
+      setPages(arrayPages);
+      setClientes(response.data.clientes);
+    }
+    loadClientes();
+  }, [limit, total]);
 
   return (
     <div>
@@ -69,6 +88,23 @@ export default function TableClientes() {
             })}
         </tbody>
       </Table>
+      <div>
+        <Pagination size="sm">
+          <Pagination.Prev />
+          {pages.map((item) => {
+            return (
+              <Pagination.Item
+                key={item}
+                onClick={() => setCurrentPage(item)}
+                active={item === currentPage}
+              >
+                {item}
+              </Pagination.Item>
+            );
+          })}
+          <Pagination.Next />
+        </Pagination>
+      </div>
     </div>
   );
 }

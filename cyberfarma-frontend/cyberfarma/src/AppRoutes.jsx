@@ -4,7 +4,6 @@ import Home from "./views/Home";
 import Vendas from "./views/Vendas";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { AuthProvider, AuthContext } from "./contexts/auth";
-import { TablesContextProvider } from "./contexts/tables";
 
 export default function AppRoutes() {
   const Private = ({ children }) => {
@@ -30,9 +29,7 @@ export default function AppRoutes() {
             path="/home/*"
             element={
               <Private>
-                <TablesContextProvider>
-                  <Home />
-                </TablesContextProvider>
+                <Home />
               </Private>
             }
           />
